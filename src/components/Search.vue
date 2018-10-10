@@ -110,7 +110,7 @@ export default {
 		    ],
 		    path: [{
 		        text: 'Home',
-		        href: '#'
+		        href: '/'
 		      }, {
 		        text: 'Search',
 		        href: '#'
