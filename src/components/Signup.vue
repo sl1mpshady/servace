@@ -5,7 +5,7 @@
 			<div style="width: 85%; margin: 0 auto;">
 				<br />
 				<center>
-					<h4 class="form-title">Sign in</h4>
+					<h4 class="form-title">Sign up</h4>
 				</center>
 				<md-field>
 			      <label>Email</label>
@@ -23,7 +23,7 @@
 
 <script>
 	export default {
-		name: 'Signin',
+		name: 'Signup',
 		data () {
 			return {
 				email: '',

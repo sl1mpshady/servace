@@ -1,6 +1,6 @@
 <template>
   <div class="background-cover full-container">
-    <br /> <br /> <br />
+    <br /><br /><br /><br /><br />
       <div>
         <center>
         <p class="front-font-main spread-appart center-piece adjust-top">SerVace</p>

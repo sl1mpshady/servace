@@ -99,7 +99,11 @@ export default {
 	data () {
 		return {
 			items: [
-		        { Name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
+		        { 
+		        	Name: 'Nelmin Jay M. Anoc', 
+		        	contact_number: '09489138920', 
+		        	expected_salary: '300/day'
+		        },
 		        { Name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
 		        { Name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
 		        { Name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
