@@ -20,11 +20,13 @@
                   <b-form-input
                     class="form-input-border"
                     type="text"
-                    placeholder="Barangay, City"></b-form-input>
+                    placeholder="City"></b-form-input>
                 </b-col>
                 <b-col cols="2">
                   <p class="sub-headers"><b>Search</b></p>
-                  <b-button variant="success" v-on:click="searchEmployee">Find Employee</b-button>
+                  <md-button class="md-dense md-raised md-primary search-button-front" v-on:click="searchEmployee">
+                    Find Employee
+                  </md-button>
                 </b-col>
             </b-row>
           </b-container>
@@ -34,7 +36,9 @@
       <div>
         <center>
           <p class="sub-note">Are you looking for a job ?</p>
-          <b-button variant="success">Yes, Sign me up</b-button>
+          <md-button class="md-dense md-raised md-primary note-signup-button" v-on:click="signup">
+              Yes, Sign me up
+          </md-button>
         </center>
       </div>
   </div>
@@ -45,7 +49,10 @@ export default {
   name: 'FrontPage',
   methods: {
     searchEmployee: function () {
-       this.$router.push('/search')
+      this.$router.push('/search')
+    },
+    signup: function () {
+      this.$router.push('/signup')
     }
   }
 }
@@ -103,13 +110,29 @@ a {
 }
 
 .form-input-border {
-   border-color: #10ac84 !important;
+  border-color: #10ac84 !important;
 }
 
 .sub-note {
-   font-size: 20px;
-   color: white;
-   margin-top: 60px;
+  font-size: 20px;
+  color: white;
+  margin-top: 60px;
+}
+
+.search-button-front {
+  height: 36px !important; 
+  margin-top: 1px !important; 
+  width: 100% !important; 
+  margin-left: -2px !important; 
+  background-color: #27ae60 !important;
+}
+
+.note-signup-button {
+  height: 36px !important; 
+  margin-top: 1px !important; 
+  margin-left: -2px !important; 
+  background-color: #27ae60 !important;
+  width: 150px;
 }
 
 </style>

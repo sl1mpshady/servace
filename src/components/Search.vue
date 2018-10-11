@@ -24,7 +24,9 @@
                 </b-col>
                 <b-col cols="2">
                   <p class="sub-headers"><b>Search</b></p>
-                  <b-button variant="success" v-on:click="searchEmployee">Find Employee</b-button>
+                  <md-button class="md-dense md-raised md-primary search-button-front">
+                    Find Employee
+                  </md-button>
                 </b-col>
             </b-row>
           </b-container>
@@ -38,7 +40,30 @@
           	<b-row style="margin-top: -15px;">
           		<p style="margin-left: 15px;">Found <b> 8 employees</b> matching your preference</p>
           	</b-row>
-          	<b-table striped hover :items="items" :fields="fields" style="text-align: center;"></b-table>
+          	<md-table>
+			      <md-table-row>
+			        <md-table-head class="head-font">Name</md-table-head>
+			        <md-table-head class="head-font" style="width: 20%;">Skills</md-table-head>
+			        <md-table-head class="head-font" style="text-align: center; width: 15%;">Yrs. of Experience</md-table-head>
+			        <md-table-head class="head-font">Service Type</md-table-head>
+			        <md-table-head class="head-font" style="width: 23%;">Action</md-table-head>
+			      </md-table-row>
+
+			      <md-table-row v-for="(item, index) in searchResults" key="index">
+			        <md-table-cell md-numeric class="cell-font" style="text-align: left;">{{ item.name }}</md-table-cell>
+			        <md-table-cell class="cell-font">Carpentry, Air conditioning, Plumbing</md-table-cell>
+			        <md-table-cell class="cell-font" style="text-align: center;">5</md-table-cell>
+			        <md-table-cell class="cell-font">Home Service / Shop Service</md-table-cell>
+			        <md-table-cell>
+			        	<md-button class="md-primary md-raised profile-button" style="display: inline-block;" @click="markPrinted(item.IDNumber)">
+			        		<i class="fa fa-user"></i>&nbsp; View
+			        	</md-button>
+			        	&nbsp;
+			        	<md-button class="md-primary md-raised call-button" style="display: inline-block;" @click="markPrinted(item.IDNumber)">
+			        		<i class="fa fa-phone"></i>&nbsp; Call
+			        	</md-button></md-table-cell>
+			      </md-table-row>
+    			</md-table>
           	<br />
           </b-container>
           <b-container>
@@ -98,19 +123,15 @@ export default {
 	},
 	data () {
 		return {
-			items: [
-		        { 
-		        	Name: 'Nelmin Jay M. Anoc', 
-		        	contact_number: '09489138920', 
-		        	expected_salary: '300/day'
-		        },
-		        { Name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
-		        { Name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
-		        { Name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
-		        { Name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
-		        { Name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
-		        { Name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
-		        { Name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
+			searchResults: [
+		        { name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
+		        { name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
+		        { name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
+		        { name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
+		        { name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
+		        { name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
+		        { name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
+		        { name: 'Nelmin Jay M. Anoc', contact_number: '09489138920', expected_salary: '300/day'},
 		    ],
 		    path: [{
 		        text: 'Home',
@@ -148,5 +169,28 @@ export default {
 	margin: 0 auto;
 	height: 95%;
 	margin-top: 20px;
+}
+
+.head-font {
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.profile-button {
+	height: 30px;
+	margin-left: -2px;
+}
+
+.call-button {
+	height: 30px;
+	background-color: #27ae60 !important;
+}
+
+.search-button-front {
+  height: 36px !important; 
+  margin-top: 1px !important; 
+  width: 100% !important; 
+  margin-left: -2px !important; 
+  background-color: #27ae60 !important;
 }
 </style>
