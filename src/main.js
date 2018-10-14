@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router/index.js'
 import BootstrapVue from 'bootstrap-vue'
 import VueMaterial from 'vue-material'
-
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'vue-material/dist/vue-material.min.css'

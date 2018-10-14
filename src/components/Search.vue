@@ -42,11 +42,11 @@
           	</b-row>
           	<md-table>
 			      <md-table-row>
-			        <md-table-head class="head-font">Name</md-table-head>
+			        <md-table-head class="head-font" style="width: 20%">Name</md-table-head>
 			        <md-table-head class="head-font" style="width: 20%;">Skills</md-table-head>
 			        <md-table-head class="head-font" style="text-align: center; width: 15%;">Yrs. of Experience</md-table-head>
 			        <md-table-head class="head-font">Service Type</md-table-head>
-			        <md-table-head class="head-font" style="width: 23%;">Action</md-table-head>
+			        <md-table-head class="head-font" style="width: 25%;">Action</md-table-head>
 			      </md-table-row>
 
 			      <md-table-row v-for="(item, index) in searchResults" key="index">
@@ -59,8 +59,8 @@
 			        		<i class="fa fa-user"></i>&nbsp; View
 			        	</md-button>
 			        	&nbsp;
-			        	<md-button class="md-primary md-raised call-button" style="display: inline-block;" @click="markPrinted(item.IDNumber)">
-			        		<i class="fa fa-phone"></i>&nbsp; Call
+			        	<md-button class="md-primary md-raised call-button" style="display: inline-block;" @click="showCallMeDialog = true">
+			        		<i class="fa fa-phone"></i>&nbsp; Contact
 			        	</md-button></md-table-cell>
 			      </md-table-row>
     			</md-table>
@@ -110,6 +110,17 @@
         </div>
 	</div>
 	<br /><br />
+	<md-dialog  :md-active.sync="showCallMeDialog">
+      <md-dialog-title><i class="fa fa-address-book"></i>&nbsp;Contact Information</md-dialog-title>
+      <md-dialog-content>
+      	<i class="fa fa-mobile-alt"></i>&nbsp;&nbsp;&nbsp;09489138920 <br /> <br />
+      	<i class="fa fa-phone"></i>&nbsp;&nbsp;(632) 834-4000 <br /> <br />
+      	<i class="fa fa-envelope-square"></i>&nbsp;&nbsp;&nbsp;nelmin_sinitchi@yahoo.com
+      </md-dialog-content>
+      <md-dialog-actions style="margin-top: -10px;">
+          <md-button class="md-primary" @click="showCallMeDialog = false">Ok</md-button>
+      </md-dialog-actions>
+    </md-dialog>
 	</div>
 </template>
 
@@ -139,7 +150,8 @@ export default {
 		      }, {
 		        text: 'Search',
 		        href: '#'
-		      }]
+	        }],
+    		showCallMeDialog: true
 		}
 	}
 }
