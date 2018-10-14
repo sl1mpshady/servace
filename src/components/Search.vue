@@ -151,7 +151,7 @@ export default {
 		        text: 'Search',
 		        href: '#'
 	        }],
-    		showCallMeDialog: true
+    		showCallMeDialog: false
 		}
 	}
 }
