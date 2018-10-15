@@ -4,7 +4,7 @@
       <div>
         <center>
         <p class="front-font-main spread-appart center-piece adjust-top">SerVace</p>
-        <p class="tagline"><i>" You've got a job ? We've got people for you "</i></p>
+        <p class="tagline"><i>"You've got a job ? We've got people for you"</i></p>
         <div style="margin-top: 30px;">
           <b-container style="width: 1000px; margin: 0 auto;">
             <b-row>
@@ -25,7 +25,7 @@
                 <b-col cols="2">
                   <p class="sub-headers"><b>Search</b></p>
                   <md-button class="md-dense md-raised md-primary search-button-front" v-on:click="searchEmployee">
-                    Find Employee
+                    <i class="fa fa-search"></i>&nbsp;Find Employee
                   </md-button>
                 </b-col>
             </b-row>
@@ -122,7 +122,7 @@ a {
 .search-button-front {
   height: 36px !important; 
   margin-top: 1px !important; 
-  width: 100% !important; 
+  width: 115% !important; 
   margin-left: -2px !important; 
   background-color: #27ae60 !important;
 }

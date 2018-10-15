@@ -13,19 +13,21 @@
                   <b-form-input 
                     class="form-input-border"
                     type="text"
-                    placeholder="Job Description"></b-form-input>
+                    placeholder="Job Description"
+                    v-model="job"></b-form-input>
                 </b-col>
                 <b-col>
                   <p class="sub-headers "><b>Where</b></p>
                   <b-form-input
                     class="form-input-border"
                     type="text"
-                    placeholder="Barangay, City"></b-form-input>
+                    placeholder="City"
+                    v-model="city"></b-form-input>
                 </b-col>
                 <b-col cols="2">
                   <p class="sub-headers"><b>Search</b></p>
                   <md-button class="md-dense md-raised md-primary search-button-front">
-                    Find Employee
+                    <i class="fa fa-search"></i>&nbsp;&nbsp;Find Employee
                   </md-button>
                 </b-col>
             </b-row>
@@ -44,7 +46,7 @@
 			      <md-table-row>
 			        <md-table-head class="head-font" style="width: 20%">Name</md-table-head>
 			        <md-table-head class="head-font" style="width: 20%;">Skills</md-table-head>
-			        <md-table-head class="head-font" style="text-align: center; width: 15%;">Yrs. of Experience</md-table-head>
+			        <md-table-head class="head-font" style="text-align: center; width: 5%;">Experience</md-table-head>
 			        <md-table-head class="head-font">Service Type</md-table-head>
 			        <md-table-head class="head-font" style="width: 25%;">Action</md-table-head>
 			      </md-table-row>
@@ -52,10 +54,10 @@
 			      <md-table-row v-for="(item, index) in searchResults" key="index">
 			        <md-table-cell md-numeric class="cell-font" style="text-align: left;">{{ item.name }}</md-table-cell>
 			        <md-table-cell class="cell-font">Carpentry, Air conditioning, Plumbing</md-table-cell>
-			        <md-table-cell class="cell-font" style="text-align: center;">5</md-table-cell>
+			        <md-table-cell class="cell-font" style="text-align: center;">5 years</md-table-cell>
 			        <md-table-cell class="cell-font">Home Service / Shop Service</md-table-cell>
 			        <md-table-cell>
-			        	<md-button class="md-primary md-raised profile-button" style="display: inline-block;" @click="markPrinted(item.IDNumber)">
+			        	<md-button class="md-primary md-raised profile-button" style="display: inline-block;">
 			        		<i class="fa fa-user"></i>&nbsp; View
 			        	</md-button>
 			        	&nbsp;
@@ -70,36 +72,45 @@
           	<b-container class="bottom-filter">
           		<b-row>
 	          		<div class="bottom-filter-inner">
-	          			<p><b>Would you like to compare your result with ?</b></p>
+	          			<p><b>Would you like to narrow the list with ?</b></p>
 	          		</div>
           		</b-row>
           		<b-row>
           		<b-col>
                    <b-form-group>
-				      <b-form-checkbox-group id="checkboxes2" name="flavour2" v-model="selected">
-				        <b-form-checkbox value="orange">Lesser expected salary</b-form-checkbox>
-				        <b-form-checkbox value="apple">Higher expected salary</b-form-checkbox>
-				        <b-form-checkbox value="pineapple">Lesser years of experience</b-form-checkbox>
-				        <b-form-checkbox value="pineapple">Higher years of experience</b-form-checkbox>
-				      </b-form-checkbox-group>
+                   	<div>
+	                   	 <b-form-select v-model="selectedBarangay" :options="barangay" class="mb-3" />
+	                   	 <p style="margin-top: -5px;"><i>Show only results from a choosen barangay</i></p>
+                   	</div>
+                   	<div v-show="(criticCounter ===2)">
+				  		<b-form-input 
+		                    class="form-input-border"
+		                    type="number"
+		                    placeholder="Expected Salary" ></b-form-input>
+		                    <p style="margin-top: 5px;"><i>Show only results less than or equal expected salary</i></p>
+				  	</div>
     				</b-form-group>
                 </b-col>
                 <b-col>
-                  	<b-form-group style="width: 200px;">
-				      <b-form-checkbox-group id="checkboxes2" name="flavour2" v-model="selected">
-				        <b-form-checkbox value="orange">Youngest Employees</b-form-checkbox>
-				        <b-form-checkbox value="apple">Oldest Employees</b-form-checkbox>
-				        <b-form-checkbox value="pineapple">Middle Aged Employees</b-form-checkbox>
-				      </b-form-checkbox-group>
+                  	<b-form-group>
+              		<div>
+					      <b-form-select v-model="selectedTypeOfService" :options="typeOfService" class="mb-3" />
+					      <p style="margin-top: -5px;"><i>Show only results with a type of service</i></p>
+				  	</div>
+				  	<div v-show="(criticCounter ===2)">
+				  		<b-form-input 
+		                    class="form-input-border"
+		                    type="number"
+		                    placeholder="Age"></b-form-input>
+		                    <p style="margin-top: 5px;"><i>Show only results less than or equal age set</i></p>
+				  	</div>
     				</b-form-group>
                 </b-col>
                 <b-col>
                    <b-form-group style="width: 180px;">
-				      <b-form-checkbox-group id="checkboxes2" name="flavour2" v-model="selected">
-				        <b-form-checkbox value="orange">Home Service</b-form-checkbox>
-				        <b-form-checkbox value="apple">Shop Service</b-form-checkbox>
-				        <b-form-checkbox value="pineapple">With Certifications</b-form-checkbox>
-				      </b-form-checkbox-group>
+				      <md-button class="md-dense md-raised md-primary search-button-front" @click="narrowSearch">
+                   		<i class="fa fa-search"></i>&nbsp;&nbsp;Narrow Search
+                  	  </md-button>
     				</b-form-group>
                 </b-col>
           		</b-row>
@@ -151,7 +162,35 @@ export default {
 		        text: 'Search',
 		        href: '#'
 	        }],
-    		showCallMeDialog: false
+    		showCallMeDialog: false,
+    		barangay: [
+    		    { value: null, text: '-- Select a barangay --' },
+		        { value: 0, text: 'Brgy. Dimalna' },
+		        { value: 1, text: 'Baryo Salam' },
+		        { value: 2, text: 'Baryo Sikap' },
+		        { value: 3, text: 'Baryo Kalilintad' }
+      		],
+      		selectedBarangay: null,
+      		typeOfService: [
+      			{ value: null, text: '-- Select a type of service --' },
+      			{ value: 0, text: 'Home Service' },
+      			{ value: 1, text: 'Shop Service' },
+      			{ value: 2, text: 'Home and Shop Service'}
+      		],
+      		selectedTypeOfService: null,
+      		job: 'Carpenter',
+      		city: 'Marawi',
+      		criticCounter: 1,
+      		expected_salary: '',
+      		age: ''
+		}
+	},
+	methods: {
+		narrowSearch: function () {
+			this.criticCounter += 1
+			if(this.criticCounter > 2) {
+				this.criticCounter = 2
+			}
 		}
 	}
 }
@@ -168,7 +207,8 @@ export default {
 }
 
 .bottom-filter {
-	height: 190px; 
+	min-height: 150px;
+	max-height: 220px; 
 	width: 100px; 
 	background-color: #e9ecef;
 	width: 100%;
@@ -201,7 +241,7 @@ export default {
 .search-button-front {
   height: 36px !important; 
   margin-top: 1px !important; 
-  width: 100% !important; 
+  width: 119% !important; 
   margin-left: -2px !important; 
   background-color: #27ae60 !important;
 }
