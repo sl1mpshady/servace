@@ -1,7 +1,7 @@
 <template>
 	<div>
 	<br /><br /><br /><br />
-	<div class="md-elevation-2 search-container">
+	<div class="md-elevation-5 search-container">
 		<div>
 		  <br />
 		  <br />
@@ -57,11 +57,11 @@
 			        <md-table-cell class="cell-font" style="text-align: center;">5 years</md-table-cell>
 			        <md-table-cell class="cell-font">Home Service / Shop Service</md-table-cell>
 			        <md-table-cell>
-			        	<md-button class="md-primary md-raised profile-button" style="display: inline-block;">
+			        	<md-button class="md-primary md-raised profile-button" style="display: inline-block; font-size: 12px;">
 			        		<i class="fa fa-user"></i>&nbsp; View
 			        	</md-button>
 			        	&nbsp;
-			        	<md-button class="md-primary md-raised call-button" style="display: inline-block;" @click="showCallMeDialog = true">
+			        	<md-button class="md-primary md-raised call-button" style="display: inline-block; font-size: 12px;" @click="showCallMeDialog = true">
 			        		<i class="fa fa-phone"></i>&nbsp; Contact
 			        	</md-button></md-table-cell>
 			      </md-table-row>
@@ -157,10 +157,10 @@ export default {
 		    ],
 		    path: [{
 		        text: 'Home',
-		        href: '/'
+		        to: { name: 'FrontPage'}
 		      }, {
 		        text: 'Search',
-		        href: '#'
+		        to: { name: 'Search'}
 	        }],
     		showCallMeDialog: false,
     		barangay: [

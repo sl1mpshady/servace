@@ -36,7 +36,7 @@
       <div>
         <center>
           <p class="sub-note">Are you looking for a job ?</p>
-          <md-button class="md-dense md-raised md-primary note-signup-button" v-on:click="signup">
+          <md-button class="md-raised md-primary note-signup-button" v-on:click="signup">
               Yes, Sign me up
           </md-button>
         </center>
@@ -89,11 +89,6 @@ a {
   margin: 0 auto;
 }
 
-.background-cover {
-  background-image: url('./../assets/appbg.jpg');
-  background-size: cover;
-}
-
 .sub-headers {
   font-size: 18px;
   color: white;
@@ -131,8 +126,13 @@ a {
   height: 36px !important; 
   margin-top: 1px !important; 
   margin-left: -2px !important; 
+  //background-color: #27ae60 !important;
   background-color: #27ae60 !important;
   width: 150px;
+}
+
+.blue-button {
+  background-color: #27ae60 !important;
 }
 
 </style>

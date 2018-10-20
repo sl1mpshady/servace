@@ -2,14 +2,19 @@
 	<div>
 	    <b-navbar toggleable="md" fixed="top" type="light" variant="light" class="nav-height md-elevation-2"> 
 		  <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-		  <b-navbar-brand class="nav-title spread-appart"><a href="/" class="disable-default">SerVace</a></b-navbar-brand>
+		  <b-navbar-brand class="nav-title spread-appart"><a v-on:click="pushHome" class="disable-default">SerVace</a></b-navbar-brand>
 		</b-navbar>
 	</div>
 </template>
 
 <script>
 	export default {
-		name: 'Navigation'
+		name: 'Navigation',
+		methods: {
+			pushHome: function () {
+				this.$router.push('/')
+			}
+		}
 	}
 </script>
 
@@ -25,12 +30,13 @@
 }
 
 .nav-height {
-	height: 60px !important;
+	height: 65px !important;
 }
 
 .disable-default {
 	text-decoration: none !important;
-	color: #34495e !important;
+	color: black !important;
+	cursor: pointer;
 }
 
 .nav-links {
