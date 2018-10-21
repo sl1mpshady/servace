@@ -15,7 +15,9 @@
 			      <label>Password</label>
 			      <md-input v-model="password" type="password"></md-input>
     			</md-field>
-				<md-button class="md-dense md-raised md-primary button-stable">Submit</md-button>
+				<md-button class="md-dense md-raised md-primary button-stable">
+					<i class="fa fa-lock"/>&nbsp; Submit
+				</md-button>
 			</div>
 		</div>
 	</div>
@@ -43,9 +45,8 @@
 }
 
 .form-title {
-	font-family: 'Anton', sans-serif;
+	font-weight: bold;
 	font-size: 25px;
-	letter-spacing: 3px;
 }
 
 .background-cover {

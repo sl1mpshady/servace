@@ -1,5 +1,19 @@
 <template>
   <div class="background-cover full-container">
+    <b-container>
+        <b-row>
+          <b-col></b-col>
+          <b-col></b-col>
+          <b-col></b-col>
+          <b-col></b-col>
+          <b-col align-self="end">
+            <md-button class="md-primary" style="display: inline-left; color: white; font-weight: bold; margin-right: 27px;"
+             v-on:click="login">
+              <i class="fa fa-lock"/>&nbsp; Already have an account?
+            </md-button>   
+          </b-col>
+        </b-row>
+    </b-container>
     <br /><br /><br /><br /><br />
       <div>
         <center>
@@ -25,7 +39,7 @@
                 <b-col cols="2">
                   <p class="sub-headers"><b>Search</b></p>
                   <md-button class="md-dense md-raised md-primary search-button-front" v-on:click="searchEmployee">
-                    <i class="fa fa-search"></i>&nbsp;Find Employee
+                    <i class="fa fa-search"></i>&nbsp;Find Professionals
                   </md-button>
                 </b-col>
             </b-row>
@@ -53,6 +67,9 @@ export default {
     },
     signup: function () {
       this.$router.push('/signup')
+    },
+    login: function () {
+      this.$router.push('/signin')
     }
   }
 }
@@ -117,7 +134,7 @@ a {
 .search-button-front {
   height: 36px !important; 
   margin-top: 1px !important; 
-  width: 115% !important; 
+  width: 130% !important; 
   margin-left: -2px !important; 
   background-color: #27ae60 !important;
 }
