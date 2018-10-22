@@ -4,7 +4,7 @@
 		  <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 		  <b-navbar-brand class="nav-title spread-appart">
 		  	<a v-on:click="pushHome" class="disable-default">
-		  		ServAce
+		  		<img src="./../assets/ServAceLogoRaw.png" style="height: 30px; width: 170px;"/>
 		  	</a>
 		  </b-navbar-brand>
 		  <b-collapse is-nav id="nav_collapse">
@@ -45,7 +45,7 @@
 }
 
 .nav-height {
-	height: 65px !important;
+	height: 80px !important;
 }
 
 .disable-default {
