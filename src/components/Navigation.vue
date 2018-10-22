@@ -52,6 +52,7 @@
 	text-decoration: none !important;
 	color: black !important;
 	cursor: pointer;
+	color: #27ae60 !important;
 }
 
 .nav-links {
