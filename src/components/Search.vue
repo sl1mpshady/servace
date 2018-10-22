@@ -27,52 +27,54 @@
                 <b-col cols="2">
                   <p class="sub-headers"><b>Search</b></p>
                   <md-button class="md-dense md-raised md-primary search-button-front">
-                    <i class="fa fa-search"></i>&nbsp;&nbsp;Find Employee
+                    <i class="fa fa-search"></i>&nbsp;&nbsp;Find Professionals
                   </md-button>
                 </b-col>
             </b-row>
           </b-container>
           <b-container style="margin-top: 30px;">
           	<b-row style="margin-top: -20px;">
-          		<p style="margin-left: 15px;">Below are the results of your query</p>
+          		<p style="margin-left: 15px;" class="search-results-description">Below are the results of your query</p>
           	</b-row>
           	<b-row style="margin-top: -15px;">
-          		<p style="margin-left: 15px;">Displaying results for <b>"Carpenters on Brgy. Dimalna, Marawi City"</b></p>
+          		<p style="margin-left: 15px;" class="search-results-description">
+          			Displaying results for <b>"Carpenters on Brgy. Dimalna, Marawi City"</b></p>
           	</b-row>
           	<b-row style="margin-top: -15px;">
-          		<p style="margin-left: 15px;">Found <b> 8 employees</b> matching your preference</p>
+          		<p style="margin-left: 15px;" class="search-results-description">
+          			Found <b> 8 employees</b> matching your preference</p>
           	</b-row>
-          	<md-table>
-			      <md-table-row>
-			        <md-table-head class="head-font" style="width: 20%">Name</md-table-head>
-			        <md-table-head class="head-font" style="width: 20%;">Skills</md-table-head>
-			        <md-table-head class="head-font" style="text-align: center; width: 5%;">Experience</md-table-head>
-			        <md-table-head class="head-font">Service Type</md-table-head>
-			        <md-table-head class="head-font" style="width: 25%;">Action</md-table-head>
-			      </md-table-row>
+          	<md-table>	
+	      		<md-table-row>
+		        <md-table-head class="head-font" style="width: 20%">Name</md-table-head>
+		        <md-table-head class="head-font" style="width: 20%;">Skills</md-table-head>
+		        <md-table-head class="head-font" style="text-align: center; width: 5%;">Experience</md-table-head>
+		        <md-table-head class="head-font">Service Type</md-table-head>
+		        <md-table-head class="head-font" style="width: 25%;">Action</md-table-head>
+		      </md-table-row>
 
-			      <md-table-row v-for="(item, index) in searchResults" key="index">
-			        <md-table-cell md-numeric class="cell-font" style="text-align: left;">{{ item.name }}</md-table-cell>
-			        <md-table-cell class="cell-font">Carpentry, Air conditioning, Plumbing</md-table-cell>
-			        <md-table-cell class="cell-font" style="text-align: center;">5 years</md-table-cell>
-			        <md-table-cell class="cell-font">Home Service / Shop Service</md-table-cell>
-			        <md-table-cell>
-			        	<md-button class="md-primary md-raised profile-button" style="display: inline-block; font-size: 12px;">
-			        		<i class="fa fa-user"></i>&nbsp; View
-			        	</md-button>
-			        	&nbsp;
-			        	<md-button class="md-primary md-raised call-button" style="display: inline-block; font-size: 12px;" @click="showCallMeDialog = true">
-			        		<i class="fa fa-phone"></i>&nbsp; Contact
-			        	</md-button></md-table-cell>
-			      </md-table-row>
-    			</md-table>
+		      <md-table-row v-for="(item, index) in searchResults" key="index">
+		        <md-table-cell md-numeric class="cell-font" style="text-align: left;">{{ item.name }}</md-table-cell>
+		        <md-table-cell class="cell-font">Carpentry, Air conditioning, Plumbing</md-table-cell>
+		        <md-table-cell class="cell-font" style="text-align: center;">5 years</md-table-cell>
+		        <md-table-cell class="cell-font">Home Service / Shop Service</md-table-cell>
+		        <md-table-cell>
+		        	<md-button class="md-primary md-raised profile-button" style="display: inline-block; font-size: 12px;">
+		        		<i class="fa fa-user"></i>&nbsp; View
+		        	</md-button>
+		        	&nbsp;
+		        	<md-button class="md-primary md-raised call-button" style="display: inline-block; font-size: 12px;" @click="showCallMeDialog = true">
+		        		<i class="fa fa-phone"></i>&nbsp; Contact
+		        	</md-button></md-table-cell>
+		      </md-table-row>
+			</md-table>
           	<br />
           </b-container>
           <b-container>
           	<b-container class="bottom-filter">
           		<b-row>
 	          		<div class="bottom-filter-inner">
-	          			<p><b>Would you like to narrow the list with ?</b></p>
+	          			<p class="narrow-hints"><b>Would you like to narrow the list with ?</b></p>
 	          		</div>
           		</b-row>
           		<b-row>
@@ -80,14 +82,16 @@
                    <b-form-group>
                    	<div>
 	                   	 <b-form-select v-model="selectedBarangay" :options="barangay" class="mb-3" />
-	                   	 <p style="margin-top: -5px;"><i>Show only results from a choosen barangay</i></p>
+	                   	 <p style="margin-top: -5px;" class="narrow-hints">
+	                   	 	<i>Show only results from a choosen barangay</i></p>
                    	</div>
                    	<div v-show="(criticCounter ===2)">
 				  		<b-form-input 
 		                    class="form-input-border"
 		                    type="number"
 		                    placeholder="Expected Salary" ></b-form-input>
-		                    <p style="margin-top: 5px;"><i>Show only results less than or equal expected salary</i></p>
+		                    <p style="margin-top: 5px;" class="narrow-hints">
+		                    	<i>Show only results less than or equal expected salary</i></p>
 				  	</div>
     				</b-form-group>
                 </b-col>
@@ -95,14 +99,16 @@
                   	<b-form-group>
               		<div>
 					      <b-form-select v-model="selectedTypeOfService" :options="typeOfService" class="mb-3" />
-					      <p style="margin-top: -5px;"><i>Show only results with a type of service</i></p>
+					      <p style="margin-top: -5px;" class="narrow-hints">
+					      	<i>Show only results with a type of service</i></p>
 				  	</div>
 				  	<div v-show="(criticCounter ===2)">
 				  		<b-form-input 
 		                    class="form-input-border"
 		                    type="number"
 		                    placeholder="Age"></b-form-input>
-		                    <p style="margin-top: 5px;"><i>Show only results less than or equal age set</i></p>
+		                    <p style="margin-top: 5px;" class="narrow-hints">
+		                    	<i>Show only results less than or equal age set</i></p>
 				  	</div>
     				</b-form-group>
                 </b-col>
@@ -115,19 +121,20 @@
                 </b-col>
           		</b-row>
           	</b-container>
-          	<br />
-          	<br />
+          	<br /><br /><br />
           </b-container>
         </div>
 	</div>
-	<br /><br />
+	<br /><br /><br /><br />
 	<md-dialog  :md-active.sync="showCallMeDialog">
       <md-dialog-title><i class="fa fa-address-book"></i>&nbsp;Contact Information</md-dialog-title>
+      <br />
       <md-dialog-content>
-      	<i class="fa fa-mobile-alt"></i>&nbsp;&nbsp;&nbsp;09489138920 <br /> <br />
-      	<i class="fa fa-phone"></i>&nbsp;&nbsp;(632) 834-4000 <br /> <br />
-      	<i class="fa fa-envelope-square"></i>&nbsp;&nbsp;&nbsp;nelmin_sinitchi@yahoo.com
+      	<i class="fa fa-mobile-alt"></i>&nbsp;&nbsp;&nbsp;<b>09489138920</b><br /> <br />
+      	<i class="fa fa-phone"></i>&nbsp;&nbsp;<b>(632) 834-4000</b><br /> <br />
+      	<i class="fa fa-envelope-square"></i>&nbsp;&nbsp;&nbsp;<b>monkeydev.team@gmail.com</b>
       </md-dialog-content>
+      <br />
       <md-dialog-actions style="margin-top: -10px;">
           <md-button class="md-primary" @click="showCallMeDialog = false">Ok</md-button>
       </md-dialog-actions>
@@ -224,7 +231,7 @@ export default {
 }
 
 .head-font {
-	font-size: 15px;
+	font-size: 17px;
 	font-weight: bold;
 }
 
@@ -244,5 +251,17 @@ export default {
   width: 119% !important; 
   margin-left: -2px !important; 
   background-color: #27ae60 !important;
+}
+
+.search-results-description {
+	font-family: 'Lineto Circular Book', sans-serif;
+}
+
+.narrow-hints {
+	font-family: 'Lineto Circular Book', sans-serif;	
+}
+
+input, select, button, tr, a {
+  font-family: 'Lineto Circular Book', sans-serif !important;
 }
 </style>

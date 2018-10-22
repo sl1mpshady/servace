@@ -16,6 +16,22 @@ export default {
 </script>
 
 <style>
+
+@font-face {
+    font-family: 'Product Sans Bold';
+    src: url('./assets/fonts/Product-Sans-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Samsung Sharp Sans Bold';
+    src: url('./assets/fonts/SamsungSharpSans-Bold.woff');
+}
+
+@font-face {
+  font-family: 'Lineto Circular Book';
+  src: url('./assets/fonts/lineto-circular-book.woff');
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -42,5 +58,9 @@ export default {
     border: 1px solid #007bff;
     border-radius: 0.25rem;
     cursor: pointer;
+}
+
+input, select, button, tr, p, h4, b {
+  font-family: 'Lineto Circular Book', sans-serif !important;
 }
 </style>

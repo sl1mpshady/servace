@@ -17,7 +17,7 @@
     <br /><br /><br /><br /><br />
       <div>
         <center>
-        <p class="front-font-main spread-appart center-piece adjust-top">SerVace</p>
+        <p class="front-font-main spread-appart center-piece adjust-top">ServAce</p>
         <p class="tagline"><i>"You've got a job ? We've got people for you"</i></p>
         <div style="margin-top: 30px;">
           <b-container style="width: 1000px; margin: 0 auto;">
@@ -51,7 +51,7 @@
         <center>
           <p class="sub-note">Are you looking for a job ?</p>
           <md-button class="md-raised md-primary note-signup-button" v-on:click="signup">
-              Yes, Sign me up
+              <i class="fa fa-pencil-alt"/>&nbsp; Yes, Sign me up
           </md-button>
         </center>
       </div>
@@ -93,13 +93,13 @@ a {
 }
 
 .front-font-main {
-  font-family: 'Anton', sans-serif;
-  font-size: 65px !important;
+  font-family: 'Samsung Sharp Sans Bold', sans-serif !important;
+  font-size: 85px !important;
   color: white;
 }
 
 .spread-appart {
-  letter-spacing: 8px;
+  letter-spacing: 2px;
 }
 
 .center-piece {
@@ -118,7 +118,8 @@ a {
 .tagline {
   color: white;
   font-size: 18px;
-  margin-top: 60px;
+  margin-top: 40px;
+  font-family:'Lineto Circular Book', sans-serif !important;
 }
 
 .form-input-border {
@@ -129,6 +130,7 @@ a {
   font-size: 20px;
   color: white;
   margin-top: 60px;
+  font-family:'Lineto Circular Book', sans-serif !important;
 }
 
 .search-button-front {
@@ -143,13 +145,13 @@ a {
   height: 36px !important; 
   margin-top: 1px !important; 
   margin-left: -2px !important; 
-  //background-color: #27ae60 !important;
   background-color: #27ae60 !important;
-  width: 150px;
+  width: 170px;
 }
 
 .blue-button {
   background-color: #27ae60 !important;
 }
+
 
 </style>

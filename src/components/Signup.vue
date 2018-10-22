@@ -71,7 +71,7 @@
 	    				<b-col>
 							<md-field>
 						      <label>* Expected Salary</label>
-						      <md-input v-model="expectedSalary"></md-input>
+						      <md-input v-model="expectedSalary" type="number"></md-input>
 		    				</md-field>
 	    				</b-col>	
 					</b-row>
