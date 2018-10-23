@@ -67,4 +67,9 @@
 	margin-left: -1px;
 }
 
+input, select, button, tr, a, label {
+  font-family: 'Lineto Circular Book', sans-serif !important;
+}
+
+
 </style>

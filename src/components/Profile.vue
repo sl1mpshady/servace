@@ -70,15 +70,24 @@
 							</b-row>
 						</div><br />
 						<p class="section-sub-titles"><i class="fa fa-certificate"/>&nbsp;Certifications</p><br />
-						<div style="width: 94%; margin: 0 auto;">
+						<div style="width: 94%; margin: 0 auto;height: 0 auto;">
 							<b-row>
-								
+								<b-col>
+									<img src="./../assets/certificate1.jpg" class="certificate-width" />
+								</b-col>
+								<b-col>
+									<img src="./../assets/certificate2.jpg" class="certificate-width" />
+								</b-col>
 							</b-row>
+							
+							<br />
+							<br />
 						</div>
 					</b-container>
 				</div>
 			</b-col>
 		</b-row>
+		<br /><br />
 	</div>
 </template>
 
@@ -123,7 +132,8 @@
 	background-color: white;
 }
 .right-wing-profile {
-	height: 700px; 
+	min-height: 700px !important; 
+	max-height: 2000px !important; 
 	width: 100%; 
 	background-color: white;
 }
@@ -149,6 +159,11 @@
 	font-family: 'Lineto Circular Book' !important;
 	font-size: 23px;
 	margin-left: 5px;
+}
+
+.certificate-width {
+	width: 90% !important;
+	height: 300px !important;
 }
 
 </style>
