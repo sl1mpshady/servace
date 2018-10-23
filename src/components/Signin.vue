@@ -15,7 +15,7 @@
 			      <label>Password</label>
 			      <md-input v-model="password" type="password"></md-input>
     			</md-field>
-				<md-button class="md-dense md-raised md-primary button-stable">
+				<md-button class="md-dense md-raised md-primary button-stable" v-on:click="profile">
 					<i class="fa fa-lock"/>&nbsp; Submit
 				</md-button>
 			</div>
@@ -31,11 +31,17 @@
 				email: '',
 				password: ''
 			}
+		},
+		methods: {
+			profile: function () {
+				this.$router.push('/profile')
+			}
 		}
 	}
 </script>
 
 <style scoped>
+
 .inner-div {
 	height: 290px;
 	width: 400px;
