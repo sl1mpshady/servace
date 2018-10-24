@@ -15,7 +15,7 @@ export default new Router({
 			name: 'FrontPage',
 			component: FrontPage
 		},
-		{
+		{	
 			path: '/search',
 			name: 'Search',
 			component: Search

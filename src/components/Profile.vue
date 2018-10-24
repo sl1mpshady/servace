@@ -1,8 +1,9 @@
 <template>
 	<div class="section-container">
+		<b-container >
 		<b-row>
 			<b-col cols="3">
-				<div class="md-elevation-3 left-wing-profile">
+				<div class="md-elevation-3 left-wing-profile">	
 					<center>
 					  	<img src="./../assets/sampleProfile.jpg" class="profileImage" />
 					</center>
@@ -17,7 +18,7 @@
 			<b-col>
 				<div class="md-elevation-3 right-wing-profile">
 					<b-container>
-						<br /><b-breadcrumb :items="path"/><br />
+						<br /><b-breadcrumb :items="path"/>
 						<p class="section-sub-titles"><i class="fa fa-user"/>&nbsp;Personal Information</p><br />
 						<div style="width: 94%; margin: 0 auto;">
 							<b-row>
@@ -69,24 +70,67 @@
 								</b-col>
 							</b-row>
 						</div><br />
-						<p class="section-sub-titles"><i class="fa fa-certificate"/>&nbsp;Certifications</p><br />
+						<p class="section-sub-titles"><i class="fa fa-graduation-cap"/>&nbsp;Educational Background</p><br />
 						<div style="width: 94%; margin: 0 auto;height: 0 auto;">
 							<b-row>
 								<b-col>
-									<img src="./../assets/certificate1.jpg" class="certificate-width" />
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Level:</b>&nbsp; Elementary</p>
+										</b-col>
+									</b-row>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>School:</b>&nbsp; Butuan Central Elementary School</p>
+										</b-col>
+									</b-row>
 								</b-col>
 								<b-col>
-									<img src="./../assets/certificate2.jpg" class="certificate-width" />
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Level:</b>&nbsp; Secondary</p>
+										</b-col>
+									</b-row>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>School:</b>&nbsp; Agusan National Highschool</p>
+										</b-col>
+									</b-row>
 								</b-col>
 							</b-row>
-							
-							<br />
-							<br />
+							<b-row>
+								<b-col>
+									<br />
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Level:</b>&nbsp; Tertiary</p>
+										</b-col>
+									</b-row>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>School:</b>&nbsp; Mindanao State University</p>
+										</b-col>
+									</b-row>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Course:</b>&nbsp; BS Information Technology (Database)</p>
+										</b-col>
+									</b-row>
+								</b-col>
+							</b-row>
 						</div>
 					</b-container>
 				</div>
 			</b-col>
 		</b-row>
+	</b-container>
 		<br /><br />
 	</div>
 </template>
@@ -115,8 +159,8 @@
 <style scoped>
 
 .section-container {
+	padding-top: 110px;
 	overflow-x: hidden; 
-	padding-top: 130px; 
 	margin: 0 auto; 
 	width: 95%;
 }
@@ -164,6 +208,22 @@
 .certificate-width {
 	width: 90% !important;
 	height: 300px !important;
+}
+
+.side-nav {
+	width: 20%;
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    top: 110px; /* Stay at the top */
+    left: 120px;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    overflow-y: hidden;
+}
+
+.main {
+	padding: 0px 10px;
+	height: 100vh;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 </style>
