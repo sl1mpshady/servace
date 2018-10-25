@@ -125,7 +125,53 @@
 									</b-row>
 								</b-col>
 							</b-row>
+						</div><br />
+						<p class="section-sub-titles"><i class="fa fa-briefcase"/>&nbsp;Work Experience</p><br />
+						<div style="width: 94%; margin: 0 auto;height: 0 auto;">
+							<b-row>
+								<b-col>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Position:</b>&nbsp; Senior Software Developer</p>
+										</b-col>
+									</b-row>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Date:</b>&nbsp; Dec 12, 2010 - November 6, 2016</p>
+										</b-col>
+									</b-row>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Company:</b>&nbsp; Code Labs</p>
+										</b-col>
+									</b-row>
+								</b-col>
+								<b-col>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Position:</b>&nbsp; Senior Software Developer</p>
+										</b-col>
+									</b-row>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Date:</b>&nbsp; Dec 12, 2016 - Present</p>
+										</b-col>
+									</b-row>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Company:</b>&nbsp; Orange and Bronze</p>
+										</b-col>
+									</b-row>
+								</b-col>
+							</b-row>
 						</div>
+						<br /><br />
 					</b-container>
 				</div>
 			</b-col>
