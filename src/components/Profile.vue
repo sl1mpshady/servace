@@ -247,8 +247,9 @@
 
 .section-sub-titles {
 	font-family: 'Lineto Circular Book' !important;
-	font-size: 23px;
+	font-size: 18px;
 	margin-left: 5px;
+	font-weight: bold;
 }
 
 .certificate-width {
