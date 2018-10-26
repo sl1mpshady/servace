@@ -59,11 +59,12 @@
 		        <md-table-cell class="cell-font" style="text-align: center;">5 years</md-table-cell>
 		        <md-table-cell class="cell-font">Home Service / Shop Service</md-table-cell>
 		        <md-table-cell>
-		        	<md-button class="md-primary md-raised profile-button" style="display: inline-block; font-size: 12px;">
+		        	<md-button class="md-primary md-raised profile-button" style="display: inline-block; font-size: 12px;" @click="pushProfile">
 		        		<i class="fa fa-user"></i>&nbsp; View
 		        	</md-button>
 		        	&nbsp;
-		        	<md-button class="md-primary md-raised call-button" style="display: inline-block; font-size: 12px;" @click="showCallMeDialog = true">
+		        	<md-button class="md-primary md-raised call-button" style="display: inline-block; font-size: 12px;" 
+		        	@click="showCallMeDialog = true">
 		        		<i class="fa fa-phone"></i>&nbsp; Contact
 		        	</md-button></md-table-cell>
 		      </md-table-row>
@@ -198,6 +199,10 @@ export default {
 			if(this.criticCounter > 2) {
 				this.criticCounter = 2
 			}
+		},
+		pushProfile: function () {
+			//this.$router.open('/profile/nelmin-stinky')
+			this.$router.push('/profile/nelmin-stink')
 		}
 	}
 }

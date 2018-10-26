@@ -31,9 +31,10 @@ export default new Router({
 			component: Signup
 		},
 		{
-			path: '/profile',
+			path: '/profile/:slugName',
 			name: 'Profile',
-			component: Profile
+			component: Profile,
+			props: true
 		}
 	]
 })

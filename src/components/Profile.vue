@@ -12,7 +12,23 @@
 						<font class="sub-info"><i class="fa fa-envelope"/>&nbsp;hitman@gmail.com</font> <br />
 						<font class="sub-info"><i class="fa fa-phone" />&nbsp;09489138920</font> <br /> <br />
 						<font class="sub-info">"I do the nasty job so clean that I'll come knocking on your door to clean you myself"</font>
-					</div>			
+						
+					</div>	
+					<!-- <br/>&nbsp;<md-button class="md-dense md-raised md-primary report-button">
+						<i class="fa fa-bullhorn"/>&nbsp; Report
+					</md-button> <br /><br /> -->
+					<br /><br />
+					<div v-show="(profileUrl !== '')" style="word-wrap: breakword;">
+						<div class="fb-like" 
+						    :data-href="profileUrl" 
+						    data-layout="standard" 
+						    data-action="recommend" 
+						    data-show-faces="true"
+						    data-width="100"
+						    data-size="large"
+						    style="width: 50px; margin-left: 15px;">
+	  					</div>	
+  					</div>	
 				</div>
 			</b-col>
 			<b-col>
@@ -184,6 +200,10 @@
 <script>
 	export default {
 		name: 'Profile',
+		props: ['slugName'],
+		created: function () {
+			this.profileUrl = 'http://servace.ml/#/profile/' + this.$props.slugName
+		},
 		data () {
 			return {
 				path: [{
@@ -196,7 +216,8 @@
 		          	text: 'Profile',
 		          	to: { name: 'Profile' },
 		          }
-		        ]
+		        ],
+		        profileUrl: ''
 			}
 		}
 	}
@@ -217,7 +238,7 @@
 }
 
 .left-wing-profile {
-	height: 500px; 
+	height: 600px; 
 	width: 100%; 
 	background-color: white;
 }
@@ -271,6 +292,10 @@
 	height: 100vh;
 	overflow-y: scroll;
 	overflow-x: hidden;
+}
+
+.report-button {
+	background-color: #e74c3c !important;
 }
 
 </style>
