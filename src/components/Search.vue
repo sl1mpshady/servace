@@ -201,7 +201,6 @@ export default {
 			}
 		},
 		pushProfile: function () {
-			//this.$router.open('/profile/nelmin-stinky')
 			this.$router.push('/profile/nelmin-stink')
 		}
 	}

@@ -18,16 +18,17 @@
 						<i class="fa fa-bullhorn"/>&nbsp; Report
 					</md-button> <br /><br /> -->
 					<br /><br />
-					<div v-show="(profileUrl !== '')" style="word-wrap: breakword;">
-						<div class="fb-like" 
-						    :data-href="profileUrl" 
-						    data-layout="standard" 
-						    data-action="recommend" 
-						    data-show-faces="true"
-						    data-width="100"
-						    data-size="large"
-						    style="width: 50px; margin-left: 15px;">
-	  					</div>	
+					<div style="word-wrap: breakword;margin-left: 12px;">
+						<div 
+							data-color-scheme="light"
+							class="fb-like" 
+							:data-href="profileUrl" 
+							data-layout="standard" 
+							data-action="recommend" 
+							data-size="large" 
+							data-show-faces="true" 
+							data-share="false"
+							data-width="100"></div>
   					</div>	
 				</div>
 			</b-col>
@@ -201,6 +202,12 @@
 	export default {
 		name: 'Profile',
 		props: ['slugName'],
+		mounted: function () {
+			FB.XFBML.parse()
+			FB.Event.subscribe('xfbml.render', function () {
+				console.log("finish rendering")
+			})
+		},
 		created: function () {
 			this.profileUrl = 'http://servace.ml/#/profile/' + this.$props.slugName
 		},
