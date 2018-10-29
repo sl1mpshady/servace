@@ -209,7 +209,7 @@ export default {
 
 <style scoped>
 .search-container {
-	width: 95%; 
+	width: 1300px !important; 
 	margin: 0 auto;
 	min-height: 300px !important;
 	height: 100%;

@@ -11,13 +11,18 @@
 						<font class="employee-name">Nelmin Jay M. Anoc</font><br />
 						<font class="sub-info"><i class="fa fa-envelope"/>&nbsp;hitman@gmail.com</font> <br />
 						<font class="sub-info"><i class="fa fa-phone" />&nbsp;09489138920</font> <br /> <br />
-						<font class="sub-info">"I do the nasty job so clean that I'll come knocking on your door to clean you myself"</font>
-						
+						<font class="sub-info">"I do the nasty job so clean that I'll come knocking on your door to clean you myself"</font> <br /><br />
+						<b-row>
+							<b-col>
+								<md-button class="md-dense md-raised md-primary update-button" style="margin-left: 0px;"
+								@click="updateDialogForm = true">
+		            				<i class="fa fa-edit"></i>&nbsp;&nbsp; Update Profile
+		          				</md-button>
+	          				</b-col>
+          				</b-row>
 					</div>	
-					<!-- <br/>&nbsp;<md-button class="md-dense md-raised md-primary report-button">
-						<i class="fa fa-bullhorn"/>&nbsp; Report
-					</md-button> <br /><br /> -->
-					<br /><br />
+					<br />
+					<b><p class="social-media-note">&nbsp;&nbsp;&nbsp;Social Media Recommendation</p></b>
 					<div style="word-wrap: breakword;margin-left: 12px;">
 						<div 
 							data-color-scheme="light"
@@ -29,14 +34,19 @@
 							data-show-faces="true" 
 							data-share="false"
 							data-width="100"></div>
-  					</div>	
+  					</div><br /> 
 				</div>
 			</b-col>
 			<b-col>
 				<div class="md-elevation-3 right-wing-profile">
 					<b-container>
 						<br /><b-breadcrumb :items="path"/>
-						<p class="section-sub-titles"><i class="fa fa-user"/>&nbsp;Personal Information</p><br />
+						<b-row>
+							<b-col>
+								<p class="section-sub-titles"><i class="fa fa-user"/>&nbsp;Personal Information</p><br />
+							</b-col>
+						</b-row>
+						
 						<div style="width: 94%; margin: 0 auto;">
 							<b-row>
 								<b-col>
@@ -187,6 +197,63 @@
 									</b-row>
 								</b-col>
 							</b-row>
+						</div><br/>
+						<p class="section-sub-titles"><i class="fa fa-users"/>&nbsp;Character Reference</p><br />
+						<div style="width: 94%; margin: 0 auto;height: 0 auto;">
+							<b-row>
+								<b-col>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Name:</b>&nbsp; Mudzna J. Muin-Asakil</p>
+										</b-col>
+									</b-row>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Company:</b>&nbsp; Mindanao State University</p>
+										</b-col>
+									</b-row>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Position:</b>&nbsp; Faculty / College Secretary</p>
+										</b-col>
+									</b-row>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Contact Number:</b>&nbsp; 09489138920</p>
+										</b-col>
+									</b-row>
+								</b-col>
+								<b-col>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Name:</b>&nbsp; Janice F. Wade</p>
+										</b-col>
+									</b-row>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Company:</b>&nbsp; Mindanao State University</p>
+										</b-col>
+									</b-row>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Position:</b>&nbsp; Faculty / College Chairperson</p>
+										</b-col>
+									</b-row>
+									<b-row>
+										<b-col>
+											<p class="section-info">
+											<b>Contact Number:</b>&nbsp; 09489138920</p>
+										</b-col>
+									</b-row>
+								</b-col>
+							</b-row>
 						</div>
 						<br /><br />
 					</b-container>
@@ -224,13 +291,18 @@
 		          	to: { name: 'Profile' },
 		          }
 		        ],
-		        profileUrl: ''
+		        profileUrl: '',
+		        updateDialogForm: true
 			}
 		}
 	}
 </script>
 
 <style scoped>
+
+.social-media-note {
+	font-family: 'Lineto Circular Book' !important;
+}
 
 .section-container {
 	padding-top: 110px;
@@ -245,7 +317,8 @@
 }
 
 .left-wing-profile {
-	height: 600px; 
+	min-height: 600px;
+	max-height: 2500px; 
 	width: 100%; 
 	background-color: white;
 }
@@ -303,6 +376,35 @@
 
 .report-button {
 	background-color: #e74c3c !important;
+}
+
+.update-button {
+	font-size: 14px !important;
+	height: 30px !important;
+	background-color: #27ae60 !important;
+}
+
+.update-form-dialog {
+	top: 300px !important;
+	width: 95% !important;
+	height: 900px !important;
+}
+
+.dialog-update-title {
+	font-weight: bold !important;
+	font-family: 'Product Sans Bold', sans-serif !important;
+}
+
+.dialog-form-center {
+	background-color: whitesmoke !important;
+	height: 0 auto !important;
+	margin: 0 auto !important; 
+	border-radius: 10px 10px !important;
+}
+
+.update-dialog-form-profile-image {
+	height: 250px !important;
+	width: 250px !important;
 }
 
 </style>

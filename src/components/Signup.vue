@@ -23,7 +23,7 @@
 				        <b-col cols="2">
 				        	<md-field>
 						      <label>Middle Initial</label>
-						      <md-input v-model="middleName"></md-input>
+						      <md-input v-model="middleName" maxlength="1" type="text"></md-input>
 	    					</md-field>
 				        </b-col>
 				        <b-col>
