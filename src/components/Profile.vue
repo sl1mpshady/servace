@@ -1,7 +1,7 @@
 <template>
 	<div class="section-container">
 		<b-container >
-		<b-row>
+		<b-row v-show="(!updateContainer)">
 			<b-col cols="3">
 				<div class="md-elevation-3 left-wing-profile">	
 					<center>
@@ -14,8 +14,7 @@
 						<font class="sub-info">"I do the nasty job so clean that I'll come knocking on your door to clean you myself"</font> <br /><br />
 						<b-row>
 							<b-col>
-								<md-button class="md-dense md-raised md-primary update-button" style="margin-left: 0px;"
-								@click="updateDialogForm = true">
+								<md-button class="md-dense md-raised md-primary update-button" style="margin-left: 0px;" @click="updateContainer = true">
 		            				<i class="fa fa-edit"></i>&nbsp;&nbsp; Update Profile
 		          				</md-button>
 	          				</b-col>
@@ -261,7 +260,241 @@
 			</b-col>
 		</b-row>
 	</b-container>
-		<br /><br />
+	<div v-show="(updateContainer)">
+		<b-container  class="update-container">
+			<div class="update-inner-container">
+				<br />
+				<b-row>
+					<b-col>
+						<h4 class="container-adjust-top update-container-title"><i class="fa fa-edit"/>&nbsp;Update Profile</h4>
+					</b-col>
+				</b-row>
+				<b-row>
+					<b-col cols="3">
+						<img src="./../assets/sampleProfile.jpg" class="updateImage" />
+					</b-col>
+					<b-col>
+						<hr />
+						<b-row>
+							<p class="section-sub-titles"><i class="fa fa-user"/>&nbsp;Personal Information</p>
+						</b-row>
+						<b-row>
+							<b-col>
+								<md-field>
+							      <label>* First Name</label>
+							      <md-input v-model="firstName"></md-input>
+		    					</md-field>
+							</b-col>
+					        <b-col cols="2">
+					        	<md-field>
+							      <label>Middle Initial</label>
+							      <md-input v-model="middleName" maxlength="1" type="text"></md-input>
+		    					</md-field>
+					        </b-col>
+					        <b-col>
+					        	<md-field>
+							      <label>* Last Name</label>
+							      <md-input v-model="lastName"></md-input>
+		    					</md-field>
+					        </b-col>
+						</b-row>
+						<b-row>
+					        <b-col>
+					        	<md-field>
+							      <label>* City</label>
+							      <md-input v-model="city" type="text"></md-input>
+		    					</md-field>
+					        </b-col>
+					        <b-col>
+					        	<md-field>
+							      <label>* Barangay</label>
+							      <md-input v-model="barangay"></md-input>
+		    					</md-field>
+					        </b-col>
+						</b-row>
+						<b-row>
+							<b-col>
+								<md-field>
+							      <label>* Date of Birth</label>
+							      <md-input v-model="birthdate"></md-input>
+		    					</md-field>
+							</b-col>
+					        <b-col>
+					        	<md-field>
+							      <label>Contact Number</label>
+							      <md-input v-model="contactNumber" type="number"></md-input>
+		    					</md-field>
+					        </b-col>
+						</b-row>
+						<b-row>
+							<b-col>
+								<md-field>
+							      <label>* Job</label>
+							      <md-input v-model="job"></md-input>
+		    					</md-field>
+							</b-col>
+					        <b-col>
+					        	<md-field>
+							      <label>* Expected Salary</label>
+							      <md-input v-model="expectedSalary"></md-input>
+		    					</md-field>
+					        </b-col>
+						</b-row>
+						<b-row>
+							<b-col>
+								<md-field>
+							      <label>* Years of Experience</label>
+							      <md-input v-model="yearsOfExperience"></md-input>
+			    				</md-field>
+		    				</b-col>	
+		    				<b-col>
+								<md-field>
+						          <label for="movie">Service Type</label>
+						          <md-select v-model="service">
+						            <md-option value="Home">Home Service</md-option>
+						            <md-option value="Shop">Shop Service</md-option>
+						            <md-option value="HomeShop">Home and Shop Service</md-option>
+						          </md-select>
+						        </md-field>
+		    				</b-col>
+						</b-row>
+						<b-row>
+							<b-col>
+								<md-field>
+							      <label>Skills</label>
+							      <md-input v-model="skills" type="text"></md-input>
+		    					</md-field>
+							</b-col>
+						</b-row>
+						<b-row>
+							<b-col>
+								<md-field>
+							      <label>Introduction</label>
+							      <md-input v-model="introduction" type="text" maxlength="100	"></md-input>
+		    					</md-field>
+							</b-col>
+						</b-row>
+						<br />
+						<b-row>
+							<p class="section-sub-titles"><i class="fa fa-graduation-cap"/>&nbsp;Educational Background</p>
+						</b-row>
+						<b-row>
+							<b-col>
+								<md-field>
+							      <label>Elementary</label>
+							      <md-input v-model="elementary"></md-input>
+		    					</md-field>
+							</b-col>
+					        <b-col>
+					        	<md-field>
+							      <label>Highschool</label>
+							      <md-input v-model="highschool"></md-input>
+		    					</md-field>
+					        </b-col>
+						</b-row>
+						<b-row>
+							<b-col>
+								<md-field>
+							      <label>College</label>
+							      <md-input v-model="college"></md-input>
+		    					</md-field>
+							</b-col>
+					        <b-col>
+					        	<md-field>
+							      <label>Course</label>
+							      <md-input v-model="course"></md-input>
+		    					</md-field>
+					        </b-col>
+						</b-row>
+						<br />
+						<b-row>
+							<p class="section-sub-titles"><i class="fa fa-briefcase"/>&nbsp;Work Experience</p>
+						</b-row>
+						<b-row>
+							<b-col>
+								<md-field>
+							      <label>Position</label>
+							      <md-input v-model="position[0]"></md-input>
+		    					</md-field>
+							</b-col>
+					        <b-col>
+					        	<md-field>
+							      <label>Date</label>
+							      <md-input v-model="fromToDate[0]"></md-input>
+		    					</md-field>
+					        </b-col>
+					        <b-col>
+					        	<md-field>
+							      <label>company</label>
+							      <md-input v-model="company[0]"></md-input>
+		    					</md-field>
+					        </b-col>
+						</b-row>
+						<b-row>
+							<b-col>
+								<md-button class="md-raised md-primary update-form-button">
+								<i class="fa fa-plus"/>&nbsp; Add Another Work Experience
+								</md-button>
+							</b-col>
+						</b-row>
+						<br />
+						<b-row>
+							<p class="section-sub-titles"><i class="fa fa-users"/>&nbsp;Character Reference</p>
+						</b-row>
+						<b-row>
+							<b-col>
+								<md-field>
+							      <label>Name</label>
+							      <md-input v-model="nameRef[0]"></md-input>
+		    					</md-field>
+							</b-col>
+					        <b-col>
+					        	<md-field>
+							      <label>Company</label>
+							      <md-input v-model="companyRef[0]"></md-input>
+		    					</md-field>
+					        </b-col>
+					        <b-col>
+					        	<md-field>
+							      <label>Position</label>
+							      <md-input v-model="positionRef[0]"></md-input>
+		    					</md-field>
+					        </b-col>
+						</b-row>
+						<b-row>
+							<b-col>
+								<md-field>
+							      <label>Contact Number</label>
+							      <md-input v-model="contactNumberRef[0]"></md-input>
+		    					</md-field>
+							</b-col>
+					        <b-col></b-col>
+					        <b-col></b-col>
+						</b-row>
+						<b-row>
+							<b-col>
+								<md-button class="md-raised md-primary update-form-button">
+								<i class="fa fa-plus"/>&nbsp; Add Another Character Reference
+								</md-button>
+							</b-col>
+						</b-row>
+						<hr />
+						<b-row>
+							<b-col>
+								<md-button class="md-raised md-primary bottom-update-form-button">
+									Save &nbsp; <i class="fa fa-save" />
+								</md-button> &nbsp;
+								<md-button class="md-raised md-primary bottom-update-form-button cancel-button" @click="updateContainer = false">
+									Cancel &nbsp; <i class="fa fa-ban" />
+								</md-button>
+							</b-col>
+						</b-row>
+					</b-col>
+				</b-row>
+			</div>
+		</b-container>	
+	</div>
+	<br /><br />
 	</div>
 </template>
 
@@ -292,7 +525,32 @@
 		          }
 		        ],
 		        profileUrl: '',
-		        updateDialogForm: true
+		        updateContainer: false,
+		        firstName: 'Nelmin Jay',
+		        middleName: 'M',
+		        lastName: 'Anoc',
+		        email: 'monkeydev.team@gmail.com',
+		        contactNumber: '09489138920',
+		        introduction: "I do the nasty job so clean that I'll come knocking on your door to clean you myself",
+		        birthdate: 'December 12, 1994',
+		        barangay: 'Libertad',
+		        city: 'Butuan City',
+		        skills: 'carpentry, plumber, cook, welding',
+		        job: 'Hitman / Assasin',
+		        expectedSalary: 'PHP 1,000,000.00',
+		        yearsOfExperience: '5',
+		        service: 'HomeShop',
+		        elementary: 'Butuan Central Elementary School',
+		        highschool: 'Agusan National Highschool',
+		        college: 'Mindanao State University',
+		        course: 'BS Information Technology (Database Systems)',
+		        position: ['Senior Software Developer'],
+		        fromToDate: ['December 12, 1994 to Present'],
+		        company: ['codelabs'],
+		        nameRef: ['Mudzna J. Muin'],
+		        companyRef: ['Mindanao State University'],
+		        positionRef: ['College Secretary/Faculty'],
+		        contactNumberRef: ['09489138920']
 			}
 		}
 	}
@@ -407,4 +665,49 @@
 	width: 250px !important;
 }
 
+.update-container {
+	background-color: white;
+	height: 1500px !important;
+	width: 1300px !important; 
+	margin: 0 auto !important;
+	margin-top: 15px;
+}
+
+.container-adjust-top {
+	margin-top: 20px !important;
+}
+
+.update-inner-container {
+	width: 95%;
+	margin: 0 auto;
+}
+
+.image-profile-update-container {
+	height: 300px !important;
+	width: 99% !important;
+	border-radius: 10px 10px; 
+}
+
+.updateImage {
+	height: 250px;
+	width: 250px;
+	margin-top: 20px;
+}
+
+.update-container-title {
+	font-family: 'Product Sans Bold', sans-serif !important;
+}
+
+.update-form-button {
+	background-color: #27ae60 !important;
+	margin-left: 0px;
+}
+
+.bottom-update-form-button {
+	margin-left: 0px ;
+}
+
+.cancel-button {
+	background-color: #c0392b !important;
+}
 </style>

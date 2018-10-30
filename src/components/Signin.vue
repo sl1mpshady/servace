@@ -34,7 +34,7 @@
 		},
 		methods: {
 			profile: function () {
-				this.$router.push('/profile')
+				this.$router.push('/profile/nelmin-stink')
 			}
 		}
 	}
