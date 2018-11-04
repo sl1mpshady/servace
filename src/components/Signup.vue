@@ -36,9 +36,19 @@
 					<b-row>
 						<b-col>
 							<md-field>
-						      <label>* City</label>
-						      <md-input v-model="city"></md-input>
-		    				</md-field>	
+					          <label for="provinceSelected">* Province</label>
+					          <md-select v-model="provinceSelected">
+					            <md-option v-for="item in province" :key="item.id" :value="item.id">{{item.name}}</md-option>
+					          </md-select>
+					        </md-field>
+	    				</b-col>
+						<b-col>
+							<md-field>
+					          <label for="citySelected">* City</label>
+					          <md-select v-model="citySelected">
+					            <md-option v-for="item in city" :key="item.id" :value="item.id">{{item.name}}</md-option>
+					          </md-select>
+					        </md-field>
 	    				</b-col>
 	    				<b-col>
 							<md-field>
@@ -171,10 +181,23 @@
 </template>
 
 <script>
+	import io from 'socket.io-client'
+
 	export default {
 		name: 'Signup',
+		created: function () {
+			this.socket = io('http://localhost:3000')
+			this.socket.emit('get-province-trigger')
+			this.socket.on('get-province-response', (data) => {
+				this.province = data
+			})
+			this.socket.on('get-cities-response', (data) => {
+				this.city = data
+			})
+		},
 		data () {
 			return {
+				socket: '',
 				firstName: '',
 				middleName: '',
 				lastName: '',
@@ -183,14 +206,20 @@
 				password: '',
 				confirmPassword: '',
 				address: '',
+				provinceSelected: '',
+				province: '',
+				citySelected: '',
 				city: '',
 				barangay: '',
+				expectedSalary: '',
+				service: '',
 				dateOfBirth: '',
 				contactNo: '',
 				job: '',
 				yearsOfExperience: '',
 				skills: '',
-				step: 1
+				step: 1,
+				isCityPopulated: true
 			}
 		},
 		methods: {
@@ -200,7 +229,12 @@
 			previous: function () {
 				this.step -= 1
 			}
-		}
+		},
+		watch: {
+		    provinceSelected: function(event) {
+		      this.socket.emit('get-cities-trigger',{ id: this.provinceSelected })
+		    }
+  		}
 	}
 </script>
 
