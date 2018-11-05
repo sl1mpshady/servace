@@ -44,7 +44,7 @@
 	    				</b-col>
 						<b-col>
 							<md-field>
-					          <label for="citySelected">* City</label>
+					          <label for="citySelected">* City / Municipality</label>
 					          <md-select v-model="citySelected">
 					            <md-option v-for="item in city" :key="item.id" :value="item.id">{{item.name}}</md-option>
 					          </md-select>
@@ -52,9 +52,11 @@
 	    				</b-col>
 	    				<b-col>
 							<md-field>
-						      <label>* Barangay</label>
-						      <md-input v-model="barangay"></md-input>
-		    				</md-field>	
+					          <label for="barangaySelected">* Barangay</label>
+					          <md-select v-model="barangaySelected">
+					            <md-option v-for="item in barangay" :key="item.id" :value="item.id">{{item.name}}</md-option>
+					          </md-select>
+					        </md-field>
 	    				</b-col>
 					</b-row>
 					<b-row>
@@ -167,7 +169,9 @@
 							</md-button>
 						</b-col>
 						<b-col align-v="end">
-							<md-button class="md-raised md-primary button-stable">
+							<md-button 
+								v-bind:disabled="disableSubmitButton()"
+								class="md-raised md-primary button-stable">
 								Submit &nbsp; <i class="fa fa-paper-plane" />
 							</md-button>
 						</b-col>
@@ -194,6 +198,9 @@
 			this.socket.on('get-cities-response', (data) => {
 				this.city = data
 			})
+			this.socket.on('get-barangay-response', (data) => {
+				this.barangay = data
+			})
 		},
 		data () {
 			return {
@@ -210,6 +217,7 @@
 				province: '',
 				citySelected: '',
 				city: '',
+				barangaySelected: '',
 				barangay: '',
 				expectedSalary: '',
 				service: '',
@@ -219,7 +227,8 @@
 				yearsOfExperience: '',
 				skills: '',
 				step: 1,
-				isCityPopulated: true
+				isCityPopulated: true,
+				isFormCompleted: false
 			}
 		},
 		methods: {
@@ -228,11 +237,31 @@
 			},
 			previous: function () {
 				this.step -= 1
-			}
+			},
+			disableSubmitButton: function () {
+		  		var flag = false	
+
+		  		if(this.firstName.trim() === '' || this.middleName.trim() === '' || this.lastName.trim() === '' || this.email.trim() === '' ||
+		  			this.password.trim() === '' || this.confirmPassword.trim() === '' || this.address.trim() === '' || this.provinceSelected.trim() ||
+		  			this.barangaySelected.trim() === '' || this.expectedSalary.trim() === '' || this.service.trim() === '' || this.dateOfBirth.trim() ||
+		  			this.contactNo.trim() === '' || this.job.trim() === '' || this.yearOfExperience.trim() === '' || this.skills.trim() === '' ) {
+		  			flag = true
+		  		}
+		  		this.isFormCompleted = !flag
+		
+		  		return flag
+		  	}
 		},
 		watch: {
 		    provinceSelected: function(event) {
+		      console.log(this.provinceSelected)
+		      this.citySelected = ''
 		      this.socket.emit('get-cities-trigger',{ id: this.provinceSelected })
+		    },
+		    citySelected: function(event) {
+		      console.log(this.citySelected)
+		      this.barangaySelected = ''
+		      this.socket.emit('get-barangay-trigger', { id: this.citySelected })
 		    }
   		}
 	}

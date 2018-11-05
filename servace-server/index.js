@@ -21,12 +21,13 @@ var db = mysql.createConnection({
   password : '',
   database : 'servace'
 });
- 
-db.connect();
+
+
+db.connect()
 
 io.on('connection', (socket) => {
 	socket.on('get-cities-trigger', (data) => {
-		db.query('SELECT * FROM cities WHERE province_id = ?', [data.id], (err, res) => {
+		db.query('SELECT * FROM cities WHERE province_id = ? ORDER BY name', [data.id], (err, res) => {
 			if(!err) {
 				console.log(res)
 				io.emit('get-cities-response', res)
@@ -34,9 +35,16 @@ io.on('connection', (socket) => {
 		})
 	})
 	socket.on('get-province-trigger', () => {
-		db.query('SELECT * FROM provinces', (err, res) => {
+		db.query('SELECT * FROM provinces ORDER BY name', (err, res) => {
 			if(!err) {
 				io.emit('get-province-response', res)
+			}
+		})
+	})
+	socket.on('get-barangay-trigger', (data) => {
+		db.query('SELECT * FROM barangays WHERE city_id = ? ORDER BY name', [data.id], (err, res) => {
+			if(!err) {
+				io.emit('get-barangay-response', res)
 			}
 		})
 	})
