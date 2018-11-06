@@ -43,17 +43,29 @@
 					        </md-field>
 	    				</b-col>
 						<b-col>
-							<md-field>
+							<md-field v-show="(city !== '')">
 					          <label for="citySelected">* City / Municipality</label>
 					          <md-select v-model="citySelected">
 					            <md-option v-for="item in city" :key="item.id" :value="item.id">{{item.name}}</md-option>
 					          </md-select>
 					        </md-field>
+					        <md-field v-show="(city === '')">
+					          <label for="citySelected">* City / Municipality</label>
+					          <md-select v-model="citySelected" disabled>
+					            <md-option v-for="item in city" :key="item.id" :value="item.id">{{item.name}}</md-option>
+					          </md-select>
+					        </md-field>
 	    				</b-col>
 	    				<b-col>
-							<md-field>
+							<md-field v-show="(barangay !== '')">
 					          <label for="barangaySelected">* Barangay</label>
 					          <md-select v-model="barangaySelected">
+					            <md-option v-for="item in barangay" :key="item.id" :value="item.id">{{item.name}}</md-option>
+					          </md-select>
+					        </md-field>
+					        <md-field v-show="(barangay === '')">
+					          <label for="barangaySelected">* Barangay</label>
+					          <md-select v-model="barangaySelected" disabled>
 					            <md-option v-for="item in barangay" :key="item.id" :value="item.id">{{item.name}}</md-option>
 					          </md-select>
 					        </md-field>
@@ -199,7 +211,9 @@
 				this.city = data
 			})
 			this.socket.on('get-barangay-response', (data) => {
-				this.barangay = data
+				if(this.citySelected !== '') {
+					this.barangay = data	
+				}	
 			})
 		},
 		data () {
@@ -256,6 +270,8 @@
 		    provinceSelected: function(event) {
 		      console.log(this.provinceSelected)
 		      this.citySelected = ''
+		   	  this.barangaySelected = ''
+		   	  this.barangay = ''
 		      this.socket.emit('get-cities-trigger',{ id: this.provinceSelected })
 		    },
 		    citySelected: function(event) {
