@@ -29,7 +29,6 @@ io.on('connection', (socket) => {
 	socket.on('get-cities-trigger', (data) => {
 		db.query('SELECT * FROM cities WHERE province_id = ? ORDER BY name', [data.id], (err, res) => {
 			if(!err) {
-				console.log(res)
 				io.emit('get-cities-response', res)
 			}
 		})
@@ -45,6 +44,21 @@ io.on('connection', (socket) => {
 		db.query('SELECT * FROM barangays WHERE city_id = ? ORDER BY name', [data.id], (err, res) => {
 			if(!err) {
 				io.emit('get-barangay-response', res)
+			}
+		})
+	})
+	socket.on('get-job-list-trigger', (data) => {
+		db.query('SELECT * FROM jobs WHERE name like ? ', [ '%' + data.name + '%' ], (err, res) => {
+			if(!err) {
+				io.emit('get-job-list-response', res)
+
+			}
+		})
+	})
+	socket.on('apply-employee', (data) => {
+		db.query('SELECT * FROM jobs WHERE name = ? ', [data.job], (err, res) => {
+			if(!err) {
+				
 			}
 		})
 	})

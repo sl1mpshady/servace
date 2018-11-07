@@ -18,13 +18,13 @@ export default {
 <style>
 
 @font-face {
-    font-family: 'Product Sans Bold';
-    src: url('./assets/fonts/Product-Sans-Bold.ttf');
+  font-family: 'Product Sans Bold';
+  src: url('./assets/fonts/Product-Sans-Bold.ttf');
 }
 
 @font-face {
-    font-family: 'Samsung Sharp Sans Bold';
-    src: url('./assets/fonts/SamsungSharpSans-Bold.woff');
+  font-family: 'Samsung Sharp Sans Bold';
+  src: url('./assets/fonts/SamsungSharpSans-Bold.woff');
 }
 
 @font-face {
@@ -45,22 +45,26 @@ export default {
 }
 
 .custom-control-label::after {
-    position: absolute;
-    top: 0.25rem;
-    left: -1.5rem;
-    display: block;
-    width: 1rem;
-    height: 1rem;
-    content: "";
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 50% 50%;
-    border: 1px solid #007bff;
-    border-radius: 0.25rem;
-    cursor: pointer;
+  position: absolute;
+  top: 0.25rem;
+  left: -1.5rem;
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  content: "";
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50% 50%;
+  border: 1px solid #007bff;
+  border-radius: 0.25rem;
+  cursor: pointer;
 }
 
 input, select, button, tr, p, h4, b {
   font-family: 'Lineto Circular Book', sans-serif !important;
+}
+
+.dropdown-toggle:after {
+  display: none !important;
 }
 </style>

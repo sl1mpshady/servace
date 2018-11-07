@@ -75,7 +75,7 @@
 						<b-col>
 							<md-field>
 						      <label>* Date of Birth</label>
-						      <md-input v-model="dateOfBirth"></md-input>
+						      <md-input v-on:focus="showDialog = true" v-model="dateOfBirth"></md-input>
 		    				</md-field>
 						</b-col>
 						<b-col>
@@ -87,10 +87,16 @@
 					</b-row>
 					<b-row>
 						<b-col>
-							<md-field>
-						      <label>* Job</label>
-						      <md-input v-model="job"></md-input>
-		    				</md-field>
+							<md-autocomplete v-model="jobSelected" :md-options="getSanitizedOptions">
+     							<label>* job</label>
+     							<template v-if="hasMatch" slot="md-autocomplete-item" slot-scope="{ item, term }">
+        							<md-highlight-text :md-term="term">{{ item.Name }}</md-highlight-text>
+      							</template>
+								
+								<template v-if="!hasMatch" slot="md-autocomplete-empty" slot-scope="{ term }">
+									No jobs matching {{ term.Name }} were found
+  								</template>	
+    						</md-autocomplete>
 	    				</b-col>
 	    				<b-col>
 							<md-field>
@@ -103,16 +109,16 @@
 						<b-col>
 							<md-field>
 						      <label>* Years of Experience</label>
-						      <md-input v-model="yearsOfExperience"></md-input>
+						      <md-input v-model="yearsOfExperience" type="number"></md-input>
 		    				</md-field>
 	    				</b-col>	
 	    				<b-col>
 							<md-field>
 					          <label for="movie">Service Type</label>
 					          <md-select v-model="service">
-					            <md-option value="Home">Home Service</md-option>
-					            <md-option value="Shop">Shop Service</md-option>
-					            <md-option value="HomeShop">Home and Shop Service</md-option>
+					            <md-option value="1">Home Service</md-option>
+					            <md-option value="2">Shop Service</md-option>
+					            <md-option value="3">Home and Shop Service</md-option>
 					          </md-select>
 					        </md-field>
 	    				</b-col>
@@ -182,6 +188,7 @@
 						</b-col>
 						<b-col align-v="end">
 							<md-button 
+								@click="applyEmployee()"
 								v-bind:disabled="disableSubmitButton()"
 								class="md-raised md-primary button-stable">
 								Submit &nbsp; <i class="fa fa-paper-plane" />
@@ -193,12 +200,54 @@
 			<br /><br />
 		</div>
 		<br /><br /><br /><br />
+		<md-dialog :md-active.sync="showDialog" style="width: 400px;">
+    	  <md-dialog-title class="dialog-element"><i class="fa fa-calendar"></i> &nbsp;Set Birthdate</md-dialog-title>
+    	  <md-content>
+   			<div class="md-layout" style="margin-top: -20px;margin-left: 25px;">
+   				<div class="md-layout-item md-size-30">
+   					<md-field class="form-width-mini">
+				      <label for="month" class="dialog-element">Month</label>
+			          <md-select v-model="month" name="month" id="month">
+			            <md-option value="January">January</md-option>
+			            <md-option value="February">February</md-option>
+			            <md-option value="March">March</md-option>
+			            <md-option value="April">April</md-option>
+			            <md-option value="May">May</md-option>
+			            <md-option value="June">June</md-option>
+			            <md-option value="July">July</md-option>
+			            <md-option value="August">August</md-option>
+			            <md-option value="September">September</md-option>
+			            <md-option value="October">October</md-option>
+			            <md-option value="November">November</md-option>
+			            <md-option value="December">December</md-option>
+			          </md-select>
+			    	</md-field>
+   				</div>
+   				<div class="md-layout-item md-size-30">
+   					<md-field class="form-width-mini">
+				      <label for="day" class="dialog-element">Day</label>
+			          <md-input v-model="day"></md-input>
+			    	</md-field>
+   				</div>
+   				<div class="md-layout-item md-size-15">
+   					<md-field class="form-width-mini">
+				      <label for="year" class="dialog-element">Year</label>
+			          <md-input v-model="year"></md-input>
+			    	</md-field>
+   				</div>
+   			</div>
+    	  </md-content>
+	      <md-dialog-actions style="margin-top: 10px;">
+	        <md-button class="md-primary" @click="showDialog = false">Cancel</md-button>
+	        <md-button class="md-primary" @click="setBirthDate()">Set</md-button>
+	      </md-dialog-actions>
+    	</md-dialog>
 	</div>
 </template>
 
 <script>
 	import io from 'socket.io-client'
-
+	
 	export default {
 		name: 'Signup',
 		created: function () {
@@ -214,6 +263,14 @@
 				if(this.citySelected !== '') {
 					this.barangay = data	
 				}	
+			})
+			this.socket.on('get-job-list-response', (data) => {
+				this.jobs = data
+				if(this.jobs.length == 0 ){
+					this.hasMatch = false
+				} else {
+					this.hasMatch = true
+				}
 			})
 		},
 		data () {
@@ -237,12 +294,21 @@
 				service: '',
 				dateOfBirth: '',
 				contactNo: '',
-				job: '',
+				jobSelected: '',
+				jobs: '',
 				yearsOfExperience: '',
 				skills: '',
 				step: 1,
 				isCityPopulated: true,
-				isFormCompleted: false
+				isFormCompleted: false,
+				options: [
+			      'Option does not exists'
+    			],
+    			hasMatch: false,
+    			showDialog: false,
+    			month: '',
+    			day: '',
+    			year: ''
 			}
 		},
 		methods: {
@@ -256,29 +322,78 @@
 		  		var flag = false	
 
 		  		if(this.firstName.trim() === '' || this.middleName.trim() === '' || this.lastName.trim() === '' || this.email.trim() === '' ||
-		  			this.password.trim() === '' || this.confirmPassword.trim() === '' || this.address.trim() === '' || this.provinceSelected.trim() ||
-		  			this.barangaySelected.trim() === '' || this.expectedSalary.trim() === '' || this.service.trim() === '' || this.dateOfBirth.trim() ||
-		  			this.contactNo.trim() === '' || this.job.trim() === '' || this.yearOfExperience.trim() === '' || this.skills.trim() === '' ) {
+		  			this.password.trim() === '' || this.confirmPassword.trim() === '' || this.citySelected === '' || this.provinceSelected === '' ||
+		  			this.barangaySelected === '' || this.expectedSalary.trim() === '' || this.service.trim() === '' || this.dateOfBirth.trim() === '' ||
+		  			this.contactNo.trim() === '' || this.jobSelected.trim() === '' || this.yearsOfExperience.trim() === '' || this.skills.trim() === '' ) {
 		  			flag = true
-		  		}
+		  		}		
+		  		console.log(flag)
 		  		this.isFormCompleted = !flag
 		
 		  		return flag
-		  	}
+		  	},
+		  	emitJobListings: function () {
+		  		this.socket.emit('get-job-list-trigger', { name: this.jobSelected })
+		  	},
+		  	setBirthDate: function () {
+		  		if(this.month.trim() !== '' && this.day.trim() !== '' && this.year.trim() !== '') {
+		  			this.dateOfBirth = this.month + ' ' + this.day + ', ' + this.year 
+		  			this.showDialog = false
+		  		} 
+  			},
+  			applyEmployee: function () {
+  				//alert("hellow")
+  				this.socket.emit('apply-employee', {
+  					firstName: this.firstName,
+  					middleName: this.middleName,
+  					lastName: this.lastName,
+  					province: this.provinceSelected,
+  					city: this.citySelected,
+  					barangay: this.barangaySelected,
+  					dateOfBirth: this.dateOfBirth,
+  					job: this.jobSelected,
+  					yearsOfExperience: this.yearsOfExperience,
+  					serviceType: this.service,
+  					skills: this.skills,
+  					email: this.email,
+  					password: this.password,
+  					confirmPassword: this.confirmPassword,
+  					contactNo: this.contactNo
+  				})
+  			}
 		},
 		watch: {
-		    provinceSelected: function(event) {
-		      console.log(this.provinceSelected)
+		    provinceSelected: function (event) {
 		      this.citySelected = ''
 		   	  this.barangaySelected = ''
 		   	  this.barangay = ''
 		      this.socket.emit('get-cities-trigger',{ id: this.provinceSelected })
 		    },
 		    citySelected: function(event) {
-		      console.log(this.citySelected)
 		      this.barangaySelected = ''
 		      this.socket.emit('get-barangay-trigger', { id: this.citySelected })
+		    },
+		    jobSelected: function (event) {
+		      if(this.jobSelected !== null && typeof this.jobSelected === 'object') {
+		      	this.jobSelected = this.jobSelected.Name
+		      }
+		      this.emitJobListings()
 		    }
+  		},
+  		computed: {
+  			getSanitizedOptions () {
+  				if(this.jobs.length !== 0 ) {
+  					return this.jobs.map(jobs => ({
+				        'Id': jobs.id,
+				        'Name': jobs.name,
+				        'toLowerCase': () => jobs.name.toLowerCase(),
+				        'toString': () => jobs.name
+	      			}))
+  				} else {
+  					return this.jobs
+  				}
+  				
+  			}
   		}
 	}
 </script>
@@ -312,7 +427,15 @@
 }
 
 input, select, button, tr, a, label {
-  font-family: 'Lineto Circular Book', sans-serif !important;
+  	font-family: 'Lineto Circular Book', sans-serif !important;
+}
+
+.form-width-mini {
+	width: 100px !important;
+}
+
+.dialog-element {
+	font-family: 'Lineto Circular Book', sans-serif !important;
 }
 
 </style>
