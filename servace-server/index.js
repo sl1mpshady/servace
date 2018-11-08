@@ -22,8 +22,11 @@ var db = mysql.createConnection({
   database : 'servace'
 });
 
-
 db.connect()
+
+
+// encryption
+var md5 = require('md5')
 
 io.on('connection', (socket) => {
 	socket.on('get-cities-trigger', (data) => {
@@ -57,8 +60,36 @@ io.on('connection', (socket) => {
 	})
 	socket.on('apply-employee', (data) => {
 		db.query('SELECT * FROM jobs WHERE name = ? ', [data.job], (err, res) => {
+			console.log(res[0].id)
 			if(!err) {
-				
+				db.query(
+					'INSERT INTO' + 
+					' employees(first_name, middle_name, last_name, gender, dateOfBirth,' + 
+					' contactNo, skills, barangay_id, service_type_id, job_id, yearsOfExperience, email, password) ' +
+					'VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+					[
+						data.firstName, 
+						data.middleName, 
+						data.lastName, 
+						data.gender, 
+						data.dateOfBirth,
+						data.contactNo,
+						data.skills,
+						data.barangay,
+						data.serviceType,
+						res[0].id,
+						data.yearsOfExperience,
+						data.email,
+						md5(data.password)
+					],
+					(err, res) => {
+						var applicationStatus = { status: 'failed' }
+						if(!err) {
+							applicationStatus.status = 'success'
+						}
+						io.emit('apply-employee-response', { applicationStatus })
+					}
+				)	
 			}
 		})
 	})

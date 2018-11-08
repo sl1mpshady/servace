@@ -36,6 +36,29 @@
 					<b-row>
 						<b-col>
 							<md-field>
+					          <label for="gender">Sex</label>
+					          <md-select v-model="service">
+					            <md-option value="1">Male</md-option>
+					            <md-option value="0">Female</md-option>
+					          </md-select>
+					        </md-field>
+				    	</b-col>
+						<b-col>
+							<md-field>
+						      <label>* Date of Birth</label>
+						      <md-input v-on:focus="showDialog = true" v-model="dateOfBirth"></md-input>
+		    				</md-field>
+						</b-col>
+						<b-col>
+							<md-field>
+						      <label>* Contact No.</label>
+						      <md-input v-model="contactNo" type="number"></md-input>
+		    				</md-field>
+						</b-col> 	
+					</b-row>
+					<b-row>
+						<b-col>
+							<md-field>
 					          <label for="provinceSelected">* Province</label>
 					          <md-select v-model="provinceSelected">
 					            <md-option v-for="item in province" :key="item.id" :value="item.id">{{item.name}}</md-option>
@@ -70,20 +93,6 @@
 					          </md-select>
 					        </md-field>
 	    				</b-col>
-					</b-row>
-					<b-row>
-						<b-col>
-							<md-field>
-						      <label>* Date of Birth</label>
-						      <md-input v-on:focus="showDialog = true" v-model="dateOfBirth"></md-input>
-		    				</md-field>
-						</b-col>
-						<b-col>
-							<md-field>
-						      <label>* Contact No.</label>
-						      <md-input v-model="contactNo" type="number"></md-input>
-		    				</md-field>
-						</b-col> 	
 					</b-row>
 					<b-row>
 						<b-col>
@@ -145,7 +154,10 @@
 						<b-col><b style="font-size:16px;">Step 1 of 2</b></b-col>
 						<b-col></b-col>
 						<b-col align-v="end">
-							<md-button class="md-raised md-primary button-stable" v-on:click="proceed">
+							<md-button 
+								class="md-raised md-primary button-stable" 
+								v-on:click="proceed"
+								v-bind:disabled="disableProceedButton()">
 								Proceed &nbsp; <i class="fa fa-arrow-right" />
 							</md-button>
 						</b-col>
@@ -173,9 +185,10 @@
 	    					</md-field>
 						</b-col>
 						<b-col>
-							<md-field>
+							<md-field :class="passwordMatching">
 						      <label>* Confirm Password</label>
 						      <md-input v-model="confirmPassword" type="password"></md-input>
+						      <span class="md-error">Password does not match</span>
 	    					</md-field>
 						</b-col>
 					</b-row>
@@ -242,6 +255,10 @@
 	        <md-button class="md-primary" @click="setBirthDate()">Set</md-button>
 	      </md-dialog-actions>
     	</md-dialog>
+    	<md-snackbar :md-position="left" :md-duration="4000" :md-active.sync="showSuccessSnackBar" md-persistent>
+	      <span class="snack-bar-font">You have successfully signed up, you may now login and update your profile.</span>
+	      <md-button class="md-primary snack-bar-font" @click="showSuccessSnackBar = false">Got it!</md-button>
+    	</md-snackbar>
 	</div>
 </template>
 
@@ -270,6 +287,46 @@
 					this.hasMatch = false
 				} else {
 					this.hasMatch = true
+				}
+			})
+			this.socket.on('apply-employee-response', (data) => {
+				console.log(data)
+				if(data.applicationStatus.status === 'success') {
+					this.showSuccessSnackBar = true
+					this.firstName =''
+					this.middleName =''
+					this.lastName =''
+					this.email =''
+					this.username =''
+					this.password =''
+					this.confirmPassword =''
+					this.address =''
+					this.provinceSelected =''
+					this.province =''
+					this.citySelected =''
+					this.city =''
+					this.barangaySelected =''
+					this.barangay =''
+					this.expectedSalary =''
+					this.service =''
+					this.dateOfBirth =''
+					this.contactNo =''
+					this.jobSelected =''
+					this.jobs =''
+					this.yearsOfExperience =''
+					this.skills =''
+					this.step =1
+					this.isCityPopulated =true
+					this.isFormCompleted =false
+					this.options =[
+				      'Option does not exists'
+	    			]
+	    			this.hasMatch =false
+	    			this.showDialog =false
+	    			this.month =''
+	    			this.day =''
+	    			this.year =''
+	    			this.gender =''
 				}
 			})
 		},
@@ -308,7 +365,10 @@
     			showDialog: false,
     			month: '',
     			day: '',
-    			year: ''
+    			year: '',
+    			gender: '',
+    			showSuccessSnackBar: false,
+    			passwordDoesNotMatch: false
 			}
 		},
 		methods: {
@@ -318,16 +378,27 @@
 			previous: function () {
 				this.step -= 1
 			},
+			disableProceedButton: function () {
+				var flag = false
+				if( this.firstName.trim() === '' || this.middleName.trim() === '' || this.lastName.trim() === ''  ||
+		  		    this.citySelected === '' || this.provinceSelected === '' || this.barangaySelected === '' || 
+		  		    this.expectedSalary.trim() === '' || this.service.trim() === '' || this.dateOfBirth.trim() === '' ||
+		  			this.contactNo.trim() === '' || this.jobSelected.trim() === '' || this.yearsOfExperience.trim() === '' || 
+		  			this.skills.trim() === '' ) {
+		  			flag = true
+		  		}	
+
+				return flag 
+			},
 			disableSubmitButton: function () {
 		  		var flag = false	
 
 		  		if(this.firstName.trim() === '' || this.middleName.trim() === '' || this.lastName.trim() === '' || this.email.trim() === '' ||
 		  			this.password.trim() === '' || this.confirmPassword.trim() === '' || this.citySelected === '' || this.provinceSelected === '' ||
 		  			this.barangaySelected === '' || this.expectedSalary.trim() === '' || this.service.trim() === '' || this.dateOfBirth.trim() === '' ||
-		  			this.contactNo.trim() === '' || this.jobSelected.trim() === '' || this.yearsOfExperience.trim() === '' || this.skills.trim() === '' ) {
+		  			this.contactNo.trim() === '' || this.jobSelected.trim() === '' || this.yearsOfExperience.trim() === '' || this.skills.trim() === '' || this.passwordDoesNotMatch ) {
 		  			flag = true
 		  		}		
-		  		console.log(flag)
 		  		this.isFormCompleted = !flag
 		
 		  		return flag
@@ -337,12 +408,11 @@
 		  	},
 		  	setBirthDate: function () {
 		  		if(this.month.trim() !== '' && this.day.trim() !== '' && this.year.trim() !== '') {
-		  			this.dateOfBirth = this.month + ' ' + this.day + ', ' + this.year 
+		  			this.dateOfBirth = this.year + '-' + this.month + '-' + this.day 
 		  			this.showDialog = false
 		  		} 
   			},
   			applyEmployee: function () {
-  				//alert("hellow")
   				this.socket.emit('apply-employee', {
   					firstName: this.firstName,
   					middleName: this.middleName,
@@ -358,7 +428,8 @@
   					email: this.email,
   					password: this.password,
   					confirmPassword: this.confirmPassword,
-  					contactNo: this.contactNo
+  					contactNo: this.contactNo,
+  					gender: this.gender
   				})
   			}
 		},
@@ -378,6 +449,13 @@
 		      	this.jobSelected = this.jobSelected.Name
 		      }
 		      this.emitJobListings()
+		    },
+		    confirmPassword: function (event) {
+		    	if(this.password.trim() !== this.confirmPassword.trim()) {
+		    		this.passwordDoesNotMatch = true
+		    	} else {
+		    		this.passwordDoesNotMatch = false
+		    	}
 		    }
   		},
   		computed: {
@@ -393,6 +471,11 @@
   					return this.jobs
   				}
   				
+  			},
+  			passwordMatching () {
+  				return {
+  					'md-invalid': this.passwordDoesNotMatch
+  				}
   			}
   		}
 	}
@@ -435,6 +518,10 @@ input, select, button, tr, a, label {
 }
 
 .dialog-element {
+	font-family: 'Lineto Circular Book', sans-serif !important;
+}
+
+.snack-bar-font {
 	font-family: 'Lineto Circular Book', sans-serif !important;
 }
 
