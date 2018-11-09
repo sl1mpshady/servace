@@ -195,12 +195,20 @@
 					<b-row>
 						<b-col><b style="font-size:16px;">Step 2 of 2</b></b-col>
 						<b-col>
-							<md-button class="md-raised md-primary button-stable" v-on:click="previous" style="background-color: #27ae60;">
+							<md-button v-show="!submittingApplication" class="md-raised md-primary button-stable" v-on:click="previous" style="background-color: #27ae60;">
 								<i class="fa fa-arrow-left" /> &nbsp; Previous 
 							</md-button>
+
 						</b-col>
 						<b-col align-v="end">
-							<md-button 
+							<md-progress-spinner 
+							    v-show="submittingApplication"
+								class="md-accent" 
+								:md-diameter="30" 
+								md-mode="indeterminate">
+								</md-progress-spinner>
+								<p v-show="submittingApplication" class="waiting"><b>Submitting Application, please wait ...</b></p>
+							<md-button v-show="!submittingApplication"
 								@click="applyEmployee()"
 								v-bind:disabled="disableSubmitButton()"
 								class="md-raised md-primary button-stable">
@@ -290,7 +298,7 @@
 				}
 			})
 			this.socket.on('apply-employee-response', (data) => {
-				console.log(data)
+				this.submittingApplication = false
 				if(data.applicationStatus.status === 'success') {
 					this.showSuccessSnackBar = true
 					this.firstName =''
@@ -368,7 +376,8 @@
     			year: '',
     			gender: '',
     			showSuccessSnackBar: false,
-    			passwordDoesNotMatch: false
+    			passwordDoesNotMatch: false,
+    			submittingApplication: false
 			}
 		},
 		methods: {
@@ -413,6 +422,7 @@
 		  		} 
   			},
   			applyEmployee: function () {
+  				this.submittingApplication = true
   				this.socket.emit('apply-employee', {
   					firstName: this.firstName,
   					middleName: this.middleName,
@@ -523,6 +533,11 @@ input, select, button, tr, a, label {
 
 .snack-bar-font {
 	font-family: 'Lineto Circular Book', sans-serif !important;
+}
+
+.waiting {
+	font-family: 'Lineto Circular Book', sans-serif !important;
+	font-weight: 400;
 }
 
 </style>
