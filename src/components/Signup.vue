@@ -37,7 +37,7 @@
 						<b-col>
 							<md-field>
 					          <label for="gender">Sex</label>
-					          <md-select v-model="service">
+					          <md-select v-model="gender">
 					            <md-option value="1">Male</md-option>
 					            <md-option value="0">Female</md-option>
 					          </md-select>
@@ -64,7 +64,7 @@
 					            <md-option v-for="item in province" :key="item.id" :value="item.id">{{item.name}}</md-option>
 					          </md-select>
 					        </md-field>
-	    				</b-col>
+	    				</b-col> 	
 						<b-col>
 							<md-field v-show="(city !== '')">
 					          <label for="citySelected">* City / Municipality</label>
@@ -276,7 +276,7 @@
 	export default {
 		name: 'Signup',
 		created: function () {
-			this.socket = io('http://localhost:3000')
+			this.socket = io('localhost:3000')
 			this.socket.emit('get-province-trigger')
 			this.socket.on('get-province-response', (data) => {
 				this.province = data

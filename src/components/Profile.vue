@@ -8,9 +8,9 @@
 					  	<img src="./../assets/sampleProfile.jpg" class="profileImage" />
 					</center>
 					<div style="width: 90%; height: 0 auto; margin: 0 auto;"> <br />
-						<font class="employee-name">Nelmin Jay M. Anoc</font><br />
-						<font class="sub-info"><i class="fa fa-envelope"/>&nbsp;hitman@gmail.com</font> <br />
-						<font class="sub-info"><i class="fa fa-phone" />&nbsp;09489138920</font> <br /> <br />
+						<font class="employee-name">{{ firstName + ' ' + middleName + ' ' + lastName }}</font><br />
+						<font class="sub-info" style="word-break: break-all;"><i class="fa fa-envelope"/>&nbsp;{{ email.trim() }}</font> <br />
+						<font class="sub-info"><i class="fa fa-phone" />&nbsp;{{ contactNumber }}</font> <br /> <br />
 						<font class="sub-info">"I do the nasty job so clean that I'll come knocking on your door to clean you myself"</font> <br /><br />
 						<b-row>
 							<b-col>
@@ -499,6 +499,8 @@
 </template>
 
 <script>
+	import io from 'socket.io-client'
+
 	export default {
 		name: 'Profile',
 		props: ['slugName'],
@@ -509,7 +511,23 @@
 			})
 		},
 		created: function () {
+			this.socket = io('localhost:3000')
+			this.socket.emit('get-employee-data', { slug: this.$props.slugName })
+			this.socket.on('get-employee-data-response', (data) => {
+				this.firstName = data[0].first_name
+				this.middleName = data[0].middle_name
+				this.lastName = data[0].last_name
+				this.email = data[0].email
+				this.contactNumber = data[0].contactNo
+			})
+
+
 			this.profileUrl = 'http://servace.ml/#/profile/' + this.$props.slugName
+			if(this.$session.get('origin') !== 'signin') {
+				this.$router.push('/')
+			} else {
+				this.isProfileUser = true
+			}
 		},
 		data () {
 			return {
@@ -524,13 +542,14 @@
 		          	to: { name: 'Profile' },
 		          }
 		        ],
+		       	socket: '',
 		        profileUrl: '',
 		        updateContainer: false,
-		        firstName: 'Nelmin Jay',
-		        middleName: 'M',
-		        lastName: 'Anoc',
-		        email: 'monkeydev.team@gmail.com',
-		        contactNumber: '09489138920',
+		        firstName: '',
+		        middleName: '',
+		        lastName: '',
+		        email: '',
+		        contactNumber: '',
 		        introduction: "I do the nasty job so clean that I'll come knocking on your door to clean you myself",
 		        birthdate: 'December 12, 1994',
 		        barangay: 'Libertad',
@@ -550,7 +569,8 @@
 		        nameRef: ['Mudzna J. Muin'],
 		        companyRef: ['Mindanao State University'],
 		        positionRef: ['College Secretary/Faculty'],
-		        contactNumberRef: ['09489138920']
+		        contactNumberRef: ['09489138920'],
+		        isProfileUser: false
 			}
 		}
 	}

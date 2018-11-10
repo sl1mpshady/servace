@@ -28,6 +28,9 @@ db.connect()
 // encryption
 var md5 = require('md5')
 
+// link slug
+var slug = require('slug')
+
 io.on('connection', (socket) => {
 	socket.on('get-cities-trigger', (data) => {
 		db.query('SELECT * FROM cities WHERE province_id = ? ORDER BY name', [data.id], (err, res) => {
@@ -60,13 +63,12 @@ io.on('connection', (socket) => {
 	})
 	socket.on('apply-employee', (data) => {
 		db.query('SELECT * FROM jobs WHERE name = ? ', [data.job], (err, res) => {
-			console.log(res[0].id)
 			if(!err) {
 				db.query(
 					'INSERT INTO' + 
 					' employees(first_name, middle_name, last_name, gender, dateOfBirth,' + 
-					' contactNo, skills, barangay_id, service_type_id, job_id, yearsOfExperience, email, password) ' +
-					'VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+					' contactNo, skills, barangay_id, service_type_id, job_id, yearsOfExperience, email, password, slug) ' +
+					'VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
 					[
 						data.firstName, 
 						data.middleName, 
@@ -80,7 +82,8 @@ io.on('connection', (socket) => {
 						res[0].id,
 						data.yearsOfExperience,
 						data.email,
-						md5(data.password)
+						md5(data.password),
+						slug(data.firstName + ' ' + data.email, {lower: true})
 					],
 					(err, res) => {
 						var applicationStatus = { status: 'failed' }
@@ -90,6 +93,25 @@ io.on('connection', (socket) => {
 						io.emit('apply-employee-response', { applicationStatus })
 					}
 				)	
+			}
+		})
+	})
+	socket.on('login-employee', (data) => {
+		db.query('SELECT * FROM employees WHERE email = ? and password = ?', [data.email, md5(data.password)], (err, res) => {
+			if(!err) {
+				io.emit('login-employee-response', res)
+			} else {
+				console.log(err)
+			}
+		})
+	})
+	socket.on('get-employee-data', (data) => {
+		db.query('SELECT * FROM employees WHERE slug = ?', [data.slug], (err, res) => {
+			if(!err) {
+				console.log(res)
+				io.emit('get-employee-data-response', res)
+			} else {
+				console.log(err)
 			}
 		})
 	})

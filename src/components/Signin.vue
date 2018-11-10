@@ -15,35 +15,58 @@
 			      <label>Password</label>
 			      <md-input v-model="password" type="password"></md-input>
     			</md-field>
-				<md-button class="md-dense md-raised md-primary button-stable" v-on:click="profile">
+    			<p v-show="loginError"class="form-error">Incorrect Email/Password, please check your spelling.</p>
+				<md-button class="md-dense md-raised md-primary button-stable" v-on:click="signin">
 					<i class="fa fa-lock"/>&nbsp; Submit
-				</md-button>
+				</md-button><br /><br /><br />
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+	import io from 'socket.io-client'
+
 	export default {
 		name: 'Signin',
+		created: function () {
+			this.socket = io('localhost:3000')
+			this.socket.on('login-employee-response', (data) => {
+				if(data.length !=0 ) {
+					this.$router.push(`/profile/${data[0].slug}`)
+					this.$session.set('origin','signin')
+					this.$session.set('userOrigin', data[0].email)
+				} else {
+					this.loginError = true
+				}
+			})
+		},
 		data () {
 			return {
 				email: '',
-				password: ''
+				password: '',
+				socket: '',
+				loginError: false
 			}
 		},
 		methods: {
 			profile: function () {
 				this.$router.push('/profile/nelmin-stink')
+			},
+			signin: function () {
+				this.socket.emit('login-employee', { 
+					email: this.email,
+					password: this.password
+				})
 			}
 		}
 	}
 </script>
 
 <style scoped>
-
 .inner-div {
-	height: 290px;
+	min-height: 290px;
+	max-height: 400px;
 	width: 400px;
 	margin: 0 auto;
 	background-color: white;
@@ -71,5 +94,9 @@ input, select, button, tr, a, label {
   font-family: 'Lineto Circular Book', sans-serif !important;
 }
 
-
+.form-error {
+	color: #d63031;
+	font-family: 'Lineto Circular Book', sans-serif !important;
+	font-weight: bold;
+}
 </style>

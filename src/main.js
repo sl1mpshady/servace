@@ -8,9 +8,11 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 import vSelect from 'vue-select/src/components/Select.vue'
+import VueSession from 'vue-session'
 
 Vue.use(BootstrapVue)
 Vue.use(VueMaterial)
+Vue.use(VueSession)
 Vue.component('v-select', vSelect)
 Vue.config.productionTip = false
 
