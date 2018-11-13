@@ -229,18 +229,18 @@
    					<md-field class="form-width-mini">
 				      <label for="month" class="dialog-element">Month</label>
 			          <md-select v-model="month" name="month" id="month">
-			            <md-option value="January">January</md-option>
-			            <md-option value="February">February</md-option>
-			            <md-option value="March">March</md-option>
-			            <md-option value="April">April</md-option>
-			            <md-option value="May">May</md-option>
-			            <md-option value="June">June</md-option>
-			            <md-option value="July">July</md-option>
-			            <md-option value="August">August</md-option>
-			            <md-option value="September">September</md-option>
-			            <md-option value="October">October</md-option>
-			            <md-option value="November">November</md-option>
-			            <md-option value="December">December</md-option>
+			            <md-option value="1">January</md-option>
+			            <md-option value="2">February</md-option>
+			            <md-option value="3">March</md-option>
+			            <md-option value="4">April</md-option>
+			            <md-option value="5">May</md-option>
+			            <md-option value="6">June</md-option>
+			            <md-option value="7">July</md-option>
+			            <md-option value="8">August</md-option>
+			            <md-option value="9">September</md-option>
+			            <md-option value="10">October</md-option>
+			            <md-option value="11">November</md-option>
+			            <md-option value="12">December</md-option>
 			          </md-select>
 			    	</md-field>
    				</div>

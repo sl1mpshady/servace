@@ -30,12 +30,17 @@
 	export default {
 		name: 'Signin',
 		created: function () {
+			if(this.$session.exists('authenticatedLoggedIn')) {
+				this.$router.push(`/profile/${this.$session.get('authenticatedSlug')}`)
+			}
 			this.socket = io('localhost:3000')
 			this.socket.on('login-employee-response', (data) => {
 				if(data.length !=0 ) {
 					this.$router.push(`/profile/${data[0].slug}`)
 					this.$session.set('origin','signin')
 					this.$session.set('userOrigin', data[0].email)
+					this.$session.set('authenticatedLoggedIn', true)
+					this.$session.set('authenticatedSlug', data[0].slug)
 				} else {
 					this.loginError = true
 				}

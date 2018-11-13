@@ -9,12 +9,13 @@
 					</center>
 					<div style="width: 90%; height: 0 auto; margin: 0 auto;"> <br />
 						<font class="employee-name">{{ firstName + ' ' + middleName + ' ' + lastName }}</font><br />
-						<font class="sub-info" style="word-break: break-all;"><i class="fa fa-envelope"/>&nbsp;{{ email.trim() }}</font> <br />
+						<font class="sub-info" style="word-break: break-all; "><i class="fa fa-envelope"/>&nbsp;{{ email.trim() }}</font> <br />
 						<font class="sub-info"><i class="fa fa-phone" />&nbsp;{{ contactNumber }}</font> <br /> <br />
-						<font class="sub-info">"I do the nasty job so clean that I'll come knocking on your door to clean you myself"</font> <br /><br />
+						<font class="sub-info">"{{ introduction }}"</font> <br /><br />
 						<b-row>
 							<b-col>
-								<md-button class="md-dense md-raised md-primary update-button" style="margin-left: 0px;" @click="updateContainer = true">
+								<md-button v-show="!disableUpdate" 
+									class="md-dense md-raised md-primary update-button" style="margin-left: 0px;" @click="updateContainer = true">
 		            				<i class="fa fa-edit"></i>&nbsp;&nbsp; Update Profile
 		          				</md-button>
 	          				</b-col>
@@ -52,25 +53,25 @@
 									<b-row>
 										<b-col>
 											<p class="section-info">
-											<b>Birhtdate:</b>&nbsp; December 12, 1994</p>
+											<b>Birhtdate:</b>&nbsp; {{ birthdate }}</p>
 										</b-col>
 									</b-row>
 									<b-row>
 										<b-col>
 											<p class="section-info">
-											<b>Address:</b>&nbsp; Marawi City, Brgy. Dimalna</p>
+											<b>Address:</b>&nbsp; {{ address }}</p>
 										</b-col>
 									</b-row>
 									<b-row>
 										<b-col>
 											<p class="section-info">
-											<b>Job:</b>&nbsp; Hitman / Assasin</p>
+											<b>Job:</b>&nbsp; {{ job }}</p>
 										</b-col>
 									</b-row>
 									<b-row>
 										<b-col>
 											<p class="section-info">
-											<b>Experience:</b>&nbsp; 5 years</p>
+											<b>Experience:</b>&nbsp; {{ experience }} year(s)</p>
 										</b-col>
 									</b-row>
 								</b-col>
@@ -78,19 +79,19 @@
 									<b-row>
 										<b-col>
 											<p class="section-info">
-											<b>Service Type:</b>&nbsp; Home and Shop Service</p>
+											<b>Service Type:</b>&nbsp; {{ service }}</p>
 										</b-col>
 									</b-row>
 									<b-row>
 										<b-col>
 											<p class="section-info">
-											<b>Expected Salary:</b>&nbsp; PHP 1,000,000.00</p>
+											<b>Expected Salary:</b>&nbsp; PHP {{ expectedSalary }}</p>
 										</b-col>
 									</b-row>
 									<b-row>
 										<b-col>
 											<p class="section-info">
-											<b>Skills:</b>&nbsp; Painting, Welding, Carpentry, Cooking and Cleaning</p>
+											<b>Skills:</b>&nbsp; {{ skills }}</p>
 										</b-col>
 									</b-row>
 								</b-col>
@@ -98,7 +99,7 @@
 						</div><br />
 						<p class="section-sub-titles"><i class="fa fa-graduation-cap"/>&nbsp;Educational Background</p><br />
 						<div style="width: 94%; margin: 0 auto;height: 0 auto;">
-							<b-row>
+							<b-row v-show="hasEducationalBackground">
 								<b-col>
 									<b-row>
 										<b-col>
@@ -128,7 +129,7 @@
 									</b-row>
 								</b-col>
 							</b-row>
-							<b-row>
+							<b-row v-show="hasEducationalBackground">
 								<b-col>
 									<br />
 									<b-row>
@@ -151,10 +152,15 @@
 									</b-row>
 								</b-col>
 							</b-row>
+							<center>
+								<div v-show="!hasEducationalBackground">
+									<p class="section-empty-state-note">You haven't added an educational background yet.</p>
+								</div>
+							</center>
 						</div><br />
 						<p class="section-sub-titles"><i class="fa fa-briefcase"/>&nbsp;Work Experience</p><br />
 						<div style="width: 94%; margin: 0 auto;height: 0 auto;">
-							<b-row>
+							<b-row v-show="hasWorkExperience">
 								<b-col>
 									<b-row>
 										<b-col>
@@ -196,10 +202,15 @@
 									</b-row>
 								</b-col>
 							</b-row>
+							<center>
+								<div v-show="!hasWorkExperience">
+									<p class="section-empty-state-note">You haven't added a work experience yet.</p>
+								</div>
+							</center>
 						</div><br/>
 						<p class="section-sub-titles"><i class="fa fa-users"/>&nbsp;Character Reference</p><br />
 						<div style="width: 94%; margin: 0 auto;height: 0 auto;">
-							<b-row>
+							<b-row v-show="hasCharacterReference">
 								<b-col>
 									<b-row>
 										<b-col>
@@ -253,6 +264,11 @@
 									</b-row>
 								</b-col>
 							</b-row>
+							<center>
+								<div v-show="!hasCharacterReference">
+									<p class="section-empty-state-note">You haven't added a character reference yet.</p>
+								</div>
+							</center>
 						</div>
 						<br /><br />
 					</b-container>
@@ -511,23 +527,65 @@
 			})
 		},
 		created: function () {
+
+			if(!this.$session.exists('origin')) {
+				this.$router.push('/')
+			}
+
 			this.socket = io('localhost:3000')
-			this.socket.emit('get-employee-data', { slug: this.$props.slugName })
+			// emit
+			this.socket.emit('get-employee-data-trigger', { slug: this.$props.slugName })
+			this.socket.emit('get-employee-work-experience-trigger', { slug: this.$props.slugName })
+			this.socket.emit('get-employee-character-trigger', { slug: this.$props.slugName })
+			// on
 			this.socket.on('get-employee-data-response', (data) => {
 				this.firstName = data[0].first_name
 				this.middleName = data[0].middle_name
 				this.lastName = data[0].last_name
 				this.email = data[0].email
 				this.contactNumber = data[0].contactNo
+				if(!data[0].introduction) {
+					this.introduction = `You haven't introduce yourself yet`
+					this.emptyIntro = true
+				} else {
+					this.introduction = data[0].introduction
+				}
+				var splitBirthday = data[0].dateOfBirth.split('-')
+				var splitDay = splitBirthday[2].split('T')
+				this.birthdate = this.months[(splitBirthday[1]-1)] + ' ' + splitDay[0] + ', ' + splitBirthday[0]
+				this.address = data[0].barangay + ', ' + data[0].city + ', ' + data[0].province
+				this.job =data[0].job
+				this.experience = data[0].yearsOfExperience
+				this.service = data[0].service_type
+				this.expectedSalary = data[0].expected_salary + '.00'
+				this.skills = data[0].skills
+				var requestOrigin = this.$session.get('origin')
+				if(requestOrigin !== 'signin') {
+					if(!this.$session.get('authenticatedLoggedIn') || this.$session.get('authenticatedSlug') != this.$props.slugName) {
+						this.disableUpdate = true
+						if(this.emptyIntro) {
+							this.introduction = `This employee haven't made an introduction yet`
+						}
+					} else {
+						this.disableUpdate = false
+					}
+				} else {
+					this.disableUpdate = false
+				}
 			})
-
-
+			this.socket.on('get-employee-work-experience-response', (data) => {
+				if(data.length != 0) {
+					this.hasWorkExperience = true
+				}
+			})
+			this.socket.on('get-employee-character-reference-response', (data) => {
+				if(data.length != 0) {
+					this.hasCharacterReference = true
+				}
+			})
+			
+			// misc
 			this.profileUrl = 'http://servace.ml/#/profile/' + this.$props.slugName
-			if(this.$session.get('origin') !== 'signin') {
-				this.$router.push('/')
-			} else {
-				this.isProfileUser = true
-			}
 		},
 		data () {
 			return {
@@ -550,27 +608,53 @@
 		        lastName: '',
 		        email: '',
 		        contactNumber: '',
-		        introduction: "I do the nasty job so clean that I'll come knocking on your door to clean you myself",
-		        birthdate: 'December 12, 1994',
-		        barangay: 'Libertad',
-		        city: 'Butuan City',
-		        skills: 'carpentry, plumber, cook, welding',
-		        job: 'Hitman / Assasin',
-		        expectedSalary: 'PHP 1,000,000.00',
-		        yearsOfExperience: '5',
-		        service: 'HomeShop',
-		        elementary: 'Butuan Central Elementary School',
-		        highschool: 'Agusan National Highschool',
-		        college: 'Mindanao State University',
-		        course: 'BS Information Technology (Database Systems)',
-		        position: ['Senior Software Developer'],
-		        fromToDate: ['December 12, 1994 to Present'],
-		        company: ['codelabs'],
-		        nameRef: ['Mudzna J. Muin'],
-		        companyRef: ['Mindanao State University'],
-		        positionRef: ['College Secretary/Faculty'],
-		        contactNumberRef: ['09489138920'],
-		        isProfileUser: false
+		        introduction: "",
+		        birthdate: '',
+		        provinceSelected: '',
+		        province: '',
+		        barangaySelected: '',
+		        barangay: '',
+		        citySelected: '',
+		        city: '',
+		        job: '',
+		        expectedSalary: '',
+		        yearsOfExperience: '',
+		        elementary: '',
+		        highschool: '',
+		        college: '',
+		        course: '',
+		        position: [],
+		        fromToDate: [],
+		        company: [],
+		        nameRef: [],
+		        companyRef: [],
+		        positionRef: [],
+		        contactNumberRef: [],
+		        isProfileUser: false,
+		        introduction: '',
+		        months: [
+		        	'January',
+		        	'February',
+		        	'March',
+		        	'April',
+		        	'May',
+		        	'June',
+		        	'July',
+		        	'August',
+		        	'September',
+		        	'October',
+		        	'November',
+		        	'December'
+		        ],
+		        address: '',
+		        job: '',
+		        service: '',
+		        skills: '',
+		        hasEducationalBackground: false,
+		        hasWorkExperience: false,
+		        hasCharacterReference: false,
+		        disableUpdate: false,
+		     	emptyIntro: false
 			}
 		}
 	}
@@ -729,5 +813,11 @@
 
 .cancel-button {
 	background-color: #c0392b !important;
+}
+
+.section-empty-state-note {
+	font-family: 'Lineto Circular Book', sans-serif !important;
+	font-size: 16px !important;
+	font-weight: 400;
 }
 </style>

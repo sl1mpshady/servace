@@ -201,7 +201,8 @@ export default {
 			}
 		},
 		pushProfile: function () {
-			this.$router.push('/profile/nelmin-stink')
+			this.$session.set('origin', 'search')
+			this.$router.push('/profile/nelmin-jay-monkeydevteamgmailcom-526-7wzohwa')
 		}
 	}
 }

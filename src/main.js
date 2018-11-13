@@ -10,9 +10,13 @@ import 'vue-material/dist/theme/default.css'
 import vSelect from 'vue-select/src/components/Select.vue'
 import VueSession from 'vue-session'
 
+var options = {
+	persist: true
+}
+
 Vue.use(BootstrapVue)
 Vue.use(VueMaterial)
-Vue.use(VueSession)
+Vue.use(VueSession, options)
 Vue.component('v-select', vSelect)
 Vue.config.productionTip = false
 

@@ -24,12 +24,15 @@ var db = mysql.createConnection({
 
 db.connect()
 
-
 // encryption
 var md5 = require('md5')
 
 // link slug
 var slug = require('slug')
+
+// dice
+var randomInt = require('random-int');
+var randomstring = require("randomstring");
 
 io.on('connection', (socket) => {
 	socket.on('get-cities-trigger', (data) => {
@@ -57,7 +60,6 @@ io.on('connection', (socket) => {
 		db.query('SELECT * FROM jobs WHERE name like ? ', [ '%' + data.name + '%' ], (err, res) => {
 			if(!err) {
 				io.emit('get-job-list-response', res)
-
 			}
 		})
 	})
@@ -83,7 +85,7 @@ io.on('connection', (socket) => {
 						data.yearsOfExperience,
 						data.email,
 						md5(data.password),
-						slug(data.firstName + ' ' + data.email, {lower: true})
+						slug(data.firstName + ' ' + data.email  +  ' ' + randomInt(0, 999) + ' ' + randomstring.generate(7), {lower: true})
 					],
 					(err, res) => {
 						var applicationStatus = { status: 'failed' }
@@ -105,11 +107,34 @@ io.on('connection', (socket) => {
 			}
 		})
 	})
-	socket.on('get-employee-data', (data) => {
-		db.query('SELECT * FROM employees WHERE slug = ?', [data.slug], (err, res) => {
+	socket.on('get-employee-data-trigger', (data) => {
+		db.query(
+				'SELECT a.*, b.name as barangay, c.name as city, d.name as province, e.name as job, f.name as service_type' + 
+				' FROM employees a, barangays b, cities c, provinces d, jobs e, service_types f ' +  
+				'WHERE slug = ? and a.barangay_id = b.id and b.city_id = c.id and c.province_id = d.id and a.job_id = e.id' + 
+				' and a.service_type_id = f.id',
+				[data.slug], (err, res) => {
 			if(!err) {
 				console.log(res)
 				io.emit('get-employee-data-response', res)
+			} else {
+				console.log(err)
+			}
+		})
+	})
+	socket.on('get-employee-work-experience-trigger', (data) => {
+		db.query('SELECT b.* FROM employees a, work_experience b WHERE a.id = b.employee_id AND a.slug = ?', [data.slug], (err, res) => {
+			if(!err) {
+				io.emit('get-employee-work-experience-response', res)
+			} else {
+				console.log(err)
+			}
+		})
+	})
+	socket.on('get-employee-character-reference', (data) => {
+		db.query('SELECT b.* FROM employees a, character_reference b WHERE a.id = b.employee_id AND a.slug = ?', [data.slug], (err, res) => {
+			if(!err) {
+				io.emit('get-employee-character-response', res)
 			} else {
 				console.log(err)
 			}
